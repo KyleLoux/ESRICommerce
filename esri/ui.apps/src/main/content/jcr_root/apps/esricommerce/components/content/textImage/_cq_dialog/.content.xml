@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    jcr:title="Text and Image"
+    sling:resourceType="cq/gui/components/authoring/dialog">
+    <content
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/foundation/container">
+        <layout
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/foundation/layouts/tabs"
+            type="nav"/>
+        <items jcr:primaryType="nt:unstructured">
+            <main
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Main"
+                sling:resourceType="granite/ui/components/foundation/section">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"
+                    margin="{Boolean}false"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <column
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                			<title
+		                        jcr:primaryType="nt:unstructured"
+					    		sling:resourceType="granite/ui/components/foundation/form/textarea"
+		                        fieldLabel="Title Text"
+		                        name="./title"/>
+                			<text
+		                        jcr:primaryType="nt:unstructured"
+					    		sling:resourceType="granite/ui/components/foundation/form/textarea"
+		                        fieldLabel="Main Section Text"
+		                        name="./text"/>
+                			<image
+		                        jcr:primaryType="nt:unstructured"
+					    		sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+					    		rootPath="/content/dam/esri"
+		                        fieldLabel="Display image"
+		                        name="./image"/>    
+							<location
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/select"
+                                fieldLabel="Image Location"
+                                fieldDescription="Select whether the image should display on the right or the left"
+                                name="./location">
+                                <items jcr:primaryType="nt:unstructured">
+                                    <right
+                                        jcr:primaryType="nt:unstructured"
+                                        text="Right"
+                                        value="right"/>
+                                    <left
+                                        jcr:primaryType="nt:unstructured"
+                                        text="Left"
+                                        value="left"/>
+                                </items>
+                            </location>		                                            
+                        </items>
+                    </column>
+                </items>
+            </main>            
+        </items>
+    </content>
+</jcr:root>

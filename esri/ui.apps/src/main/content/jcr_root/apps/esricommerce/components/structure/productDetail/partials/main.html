@@ -1,0 +1,53 @@
+<!--/*
+    Copyright 2015 Adobe Systems Incorporated
+  
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+  
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/-->
+<div class="page__main" data-sly-use.main="main.js">
+    <header class="page__header">
+		<div data-sly-resource="${ @path='topnav', resourceType='/apps/esricommerce/components/structure/topnav'}" id="parsys"></div>
+    </header>
+    
+    <!--STICK SUBTOTAL TO BOTTOM-->
+    <div class="subtotal">
+        <h3 class="font-size-2 text-off-black subtotal-text" style="margin-top: 10px; text-align: center;"># Item(s) Added to Cart &nbsp;&nbsp;
+        	<a href="/content/esri/en/cart.html"><button class="btn details btn-fill" style="width: 10%;">Go to Cart</button></a>
+        </h3>
+    </div>
+	<!--TO HERE-->
+
+	<!-- BEGIN MAIN CONTENT SECTION -->
+	<div class="grid-container">
+	    <div class="column-24 mainContent">
+			<!--INSERT MAIN PRODUCT CONTENT HERE-->
+			<div class="column-12 productContent" style="margin-top:25px;">
+	            <img src="${main.image}">
+	        </div>
+	        <div class="column-12 productContent">
+	        	<h2 class="font-size-6">${main.title}</h2>
+	
+	        	<div data-sly-resource="${ @path='lic', resourceType='/apps/esricommerce/components/content/licenseSelector'}" id="license"></div>
+		    </div>
+		</div>
+	</div>
+	<div class="grid-container featuredProducts leader-3">
+	    <p style="padding-top: 1.55rem" class="font-size-3 leader-1 trailer-1">${main.bannerText}  <a class="link-blue" href="${main.bannerLink}.html" style="text-decoration:none">${main.bannerCTA}</a></p>
+	</div>
+	<div data-sly-resource="${ @path='ext', resourceType='/apps/esricommerce/components/content/extensionGrid'}" id="extension"></div>
+	<div data-sly-resource="${ @path='fea', resourceType='/apps/esricommerce/components/content/featuredProducts'}" id="featuredProduct"></div>
+	<div data-sly-resource="${ @path='par', resourceType='wcm/foundation/components/parsys'}" id="parsys"></div>
+
+    <footer class="page__footer">
+        <p class="page__copyright">${"&copy; {0} ESRICommerce Site Site. All rights reserved." @ i18n, format=main.year, context='html'}</p>
+    </footer>
+</div>

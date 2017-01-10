@@ -17,12 +17,21 @@
 // Server-side JavaScript for the topnav logic
 use(function () {
     var items = [];
-    var root = currentPage.getAbsoluteParent(1);
+    var root = currentPage.getAbsoluteParent(2);
     var currentNavPath = currentPage.getAbsoluteParent(2).getPath();
     var it = root.listChildren(new Packages.com.day.cq.wcm.api.PageFilter());
-
+    var cartPath = "/content/esri/en/cart";
+    
     while (it.hasNext()) {
         var page = it.next();
+        pageContentResource = page.getContentResource();
+        pageValueMap = pageContentResource.adaptTo(org.apache.sling.api.resource.ValueMap);
+        if (pageValueMap.get("hideInNav", java.lang.Boolean)) {
+            if (page.getTitle() == 'Cart') {
+            	cartPath = page.getPath();
+            }
+        	continue;
+        }
 
         // No strict comparison, because the types returned from the Java APIs
         // don't strictly match the JavaScript types
@@ -35,6 +44,8 @@ use(function () {
     }
 
     return {
-        items: items
+        items: items,
+        currentNavPath: currentNavPath,
+        cartPath: cartPath
     };
 });

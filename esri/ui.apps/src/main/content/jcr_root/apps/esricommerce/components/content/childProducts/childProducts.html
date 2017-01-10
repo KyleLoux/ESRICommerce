@@ -1,0 +1,21 @@
+<div data-sly-use.data="childProducts.js"></div>
+<div data-sly-test="${wcmmode.edit}" class="cq-placeholder" data-emptytext="Child Products"></div>
+<sly data-sly-use.clientLib="${'/libs/granite/sightly/templates/clientlib.html'}"/> 
+<sly data-sly-call="${clientLib.css @ categories='childProducts'}" />
+
+<div class="grid-container block-group block-group-3-up products" style="display: -webkit-box;" data-sly-list.item="${data.product.children}">
+    <div class="card block noBorder">
+        <div class="card-content">
+            <h2 class="font-size-5">${item.title}</h2>
+            <p class="font-size-2"><i>${data.product.title}</i></p>
+            <p class="font-size-1" style="margin-top:25px;">${item.summary}</p>
+            <button class="btn details btn-fill"><a href="${item.path}.html" style="color:white">Buy Now</a></button>
+        </div>
+    </div>
+</div>
+
+<sly data-sly-call="${clientLib.js @ categories='childProducts'}" />
+
+
+				
+  

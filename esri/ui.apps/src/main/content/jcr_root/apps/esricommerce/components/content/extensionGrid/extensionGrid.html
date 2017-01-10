@@ -1,0 +1,117 @@
+<div data-sly-use.data="extensionGrid.js"></div>
+<div data-sly-test="${wcmmode.edit}" class="cq-placeholder" data-emptytext="Extension Grid"></div>
+<sly data-sly-use.clientLib="${'/libs/granite/sightly/templates/clientlib.html'}"/> 
+<sly data-sly-call="${clientLib.css @ categories='extensionGrid'}" />
+
+
+<!-- BEGIN RECOMMENDED EXTENSIONS SECTION (IF APPLICABLE) -->
+<div class="grid-container recommendExt">
+    <h2 class="font-size-5 leader-1 trailer-2" style="text-align: center;">Recommended Extensions</h2>
+
+    <!-- CODE FOR THREE CARDS ACROSS - REPEAT AS NECESSARY BASED ON NUMBER OF EXTENSIONS AVAILABLE-->
+    <div class="grid-container block-group block-group-3-up products">
+        <div class="column-22 pre-1">
+            <div class="block-group block-group-3-up" data-sly-list="${data.extensions}">
+                <div class="card block">
+                    <figure class="card-image-wrap">
+                        <img class="card-image" src="${item.image}" alt="Insert Image Here">
+                    </figure>
+                    <div class="card-content">
+                        <h4><a href="#">${item.title}</a></h4>
+                        <p class="font-size-1 card-last">${item.summaryDescription @ context='html'}</p>
+                        <p style="margin: 0 !important;">
+                            <a class="js-modal-toggle btn btn-fill leader-1" data-title="${item.title}" data-sku="${item.sku}" data-product="${item.productPath}" data-paths="${item.childPaths}"  href="" data-modal="recommendExtension">Buy Now</a>
+                        </p>
+                        <a class="font-size-1 link-blue padding-leader-1" href="${item.path}" style="text-align: center;">Learn More</a>
+                    </div>
+                </div>          
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END RECOMMENDED EXTENSIONS SECTION -->
+<!-- MODAL FOR RECOMMENDED EXTENSIONS BUY NOW -->
+    <!--MODAL CONTENT-->
+<iframe name="hiddenFrame" width="0" height="0" border="0" style="display: none;"></iframe>    
+<form target="hiddenFrame" id="addToCart" class="we-Product-form" action="${ data.product.addToCartUrl }" method="POST">     
+<input type="hidden" name="redirect" value="${currentPage.getPath}.html"/>
+    <div class="js-modal modal-overlay " data-modal="recommendExtension" id="exampleModal">
+        <div class="productContent modal-content column-12" aria-labelledby="modal" role="dialog">
+            <a class="js-modal-toggle right link-blue" href="#" aria-label="close-modal">
+                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 32 32" class="svg-icon"><path d="M18.404 16l9.9 9.9-2.404 2.404-9.9-9.9-9.9 9.9L3.696 25.9l9.9-9.9-9.9-9.898L6.1 3.698l9.9 9.899 9.9-9.9 2.404 2.406-9.9 9.898z"/></svg>
+            </a>
+            <h2  class="trailer-half font-size-4" style="margin-bottom:25px;"><i id="modalTitle">Product Title</i></h2>
+            <p class="font-size-1 licenseTypes">
+                <input id="extLicense" type="radio" name="product-path" value="perpetual2" checked>
+                <label for="extLicense" class="extLicense1 label1 font-size--1 selected">Perpetual <br /><br />Price Here</label>
+            </p>
+            <p class="font-size-1 licenseTypes">
+                <input id="extLicense2" type="radio" name="product-path" value="term2">
+                <label for="extLicense2" class="extLicense2 label2 font-size--1">One-year Subscription <br /><br />Price Here</label>
+            </p>
+            <div class="column-12 productContent">
+                <hr>
+                <p class="font-size-1">Quantity
+                    <input min="0" value="0" id="extQuantity" style="margin-left:10px; width: 70px; display: inline-block !important;" required="" aria-required="true" type="number" name="product-quantity">
+                </p>
+                <hr>
+
+	            <!-- END LICENSE SELECTION -->
+	            <p style="text-align: center;">
+	                <button id="extButton" type="submit" class="btn details btn-fill" disabled style="width: 45%;">Add to Cart</button>
+	            </p>
+	        </div>
+    	</div>
+	</div>
+</form>
+<!-- END MODAL CONTENT -->
+<!-- END MODAL FOR RECOMMENDED EXTENSIONS BUY NOW -->
+
+<script>
+    $('#extQuantity').change(function() {
+        if ($('#extQuantity').val() == 1 && ($('#extLicense').is(':checked')) || ($('#extQuantity').val() >= 1 && ($('#extLicense2').is(':checked'))))
+            $("#extButton").removeAttr("disabled");
+        else
+            $("#extButton").attr("disabled", "disabled");
+    });
+</script>
+<script>
+    $("label.extLicense2").on("click", function() {
+        $("label.extLicense2")
+                .addClass("selected");
+        $("label.extLicense1")
+                .removeClass("selected");
+        if ($('#extQuantity').val() >= 1)
+            $("#extButton").removeAttr("disabled");
+        else
+            $("#extButton").attr("disabled", "disabled");
+    });
+    $("label.extLicense1").on("click", function() {
+        $("label.extLicense1")
+                .addClass("selected");
+        $("label.extLicense2")
+                .removeClass("selected");
+        if ($('#extQuantity').val() == 1)
+            $("#extButton").removeAttr("disabled");
+        else
+            $("#extButton").attr("disabled", "disabled");
+    });
+</script>
+<script>
+$(document).on("click", ".js-modal-toggle", function () {
+     var sku = $(this).data('sku');
+     var title = $(this).data('title');
+     var productPath = $(this).data('product');
+     var childPaths = $(this).data('paths');
+     childPaths = childPaths.split(",")
+     console.log("open modal with sku " + sku)
+     console.log("open modal with title " + title)
+     console.log("open modal with product path " + productPath)
+     console.log("open modal with paths " + childPaths[0] + " " + childPaths[1])
+     $("#modalTitle").text(title)
+     $("#extLicense").val(childPaths[0])
+     $("#extLicense2").val(childPaths[1])
+});
+
+</script>				
+  

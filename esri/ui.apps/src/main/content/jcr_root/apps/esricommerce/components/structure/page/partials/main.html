@@ -6,7 +6,7 @@
     You may obtain a copy of the License at
   
         http://www.apache.org/licenses/LICENSE-2.0
-  
+
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,12 +15,11 @@
 */-->
 <div class="page__main" data-sly-use.main="main.js">
     <header class="page__header">
-        <div class="page__logo" data-sly-resource="logo"></div>
-        <nav class="page__topnav" data-sly-resource="topnav"></nav>
+		<div data-sly-resource="${ @path='topnav', resourceType='/apps/esricommerce/components/structure/topnav'}" id="parsys"></div>
     </header>
 
-    <div class="page__title" data-sly-resource="${'title' @ decorationTagName='div'}"></div>
-    <div class="page__par" data-sly-resource="par"></div>
+	${properties['jcr:title']}
+	<div data-sly-resource="${ @path='par', resourceType='wcm/foundation/components/parsys'}" id="parsys"></div>
 
     <footer class="page__footer">
         <p class="page__copyright">${"&copy; {0} ESRICommerce Site Site. All rights reserved." @ i18n, format=main.year, context='html'}</p>

@@ -1,0 +1,42 @@
+<div  data-sly-use.data="imageCarousel.js"></div>
+<div data-sly-test="${wcmmode.edit}" class="cq-placeholder" data-emptytext="Child Products"></div>
+<sly data-sly-use.clientLib="${'/libs/granite/sightly/templates/clientlib.html'}"/> 
+<sly data-sly-call="${clientLib.js @ categories='imageCarousel'}" />
+
+
+
+<!--INSERT CODE FOR MAIN PAGE IMAGE-->
+
+    <div class="column-12 productContent" style="margin-top:25px;">
+		<div class="slider slider-for" data-sly-list.item="${data.product.base.images}">					
+			<div class="item">
+				<img src="${item}">				
+			</div>
+		</div>
+		<div class="slider slider-nav" data-sly-list.item="${data.product.base.images}">
+			<div class="item" >
+				<img src="${item}" style="height: 50px; width: 50px">				
+			</div>
+		</div>
+	</div>
+
+	
+<script type="text/javascript">
+$(document).ready(function(){
+	 $('.slider-for').slick({
+	  slidesToShow: 1,
+	  slidesToScroll: 1,
+	  arrows: false,
+	  fade: true,
+	  asNavFor: '.slider-nav'
+	});
+	$('.slider-nav').slick({
+	  slidesToShow: 1,
+	  slidesToScroll: 1,
+	  asNavFor: '.slider-for',
+	  dots: true,
+	  centerMode: true,
+	  focusOnSelect: true
+	});
+});
+</script>

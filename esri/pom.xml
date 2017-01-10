@@ -25,7 +25,6 @@
     <modules>
         <module>core</module>
         <module>ui.apps</module>
-        <module>ui.content</module>
         <module>it.tests</module>
         <module>it.launcher</module>
     </modules>
@@ -383,6 +382,7 @@
     <!-- ====================================================================== -->
     <dependencyManagement>
         <dependencies>
+             
             <!-- OSGi Dependencies -->
             <dependency>
                 <groupId>org.apache.felix</groupId>
@@ -487,7 +487,7 @@
                 <artifactId>junit-addons</artifactId>
                 <version>1.4</version>
                 <scope>test</scope>
-            </dependency>
+            </dependency>	                                       
         </dependencies>
     </dependencyManagement>
 

@@ -1,0 +1,56 @@
+<div class="we-Product cq-dd-product-data-reference" data-sly-use.data="productOverview.js"
+     sku="${ data.product.basedata.product.SKU }" page-path="${ data.product.basedata.product.pagePath }">
+    <div data-sly-test="${wcmmode.edit}" class="cq-placeholder" data-emptytext="Product Overview Component"></div>
+    <sly data-sly-use.clientLib="${'/libs/granite/sightly/templates/clientlib.html'}"/> 
+    <sly data-sly-call="${clientLib.js @ categories='productOverview'}" />
+    
+    <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/hmac-sha1.js"></script>
+    
+    <div class="row" data-sly-test="${ data.product.variants && data.product.base }">
+        
+		<div data-sly-test="${wcmmode.edit}" class="cq-placeholder"
+			data-emptytext="Product Overview"></div>
+			
+			<div>
+				----		Title: ${data.product.base.title} <br>
+				----		Sku: ${data.product.base.sku} <br>
+				----		SAP Product Name: ${data.product.base.sapProductName} <br>
+				----		Product Version: ${data.product.base.productVersion} <br>
+				----		Product Tags: ${data.product.base.categories} <br>
+				----		featured: ${data.product.base.featured} <br>
+				----		Effective Date: ${data.product.base.effectiveDate} <br>
+				----		End Date: ${data.product.base.endDate} <br>
+				----		Main Label: ${data.product.base.mainLabel} <br>
+				----		Summary Description: ${data.product.base.summaryDescription} <br>
+				----		Detailed Description: ${data.product.base.detailedDescription} <br>
+				----		Label Caption: ${data.product.base.labelCaption} <br>
+				----		Landing Style: ${data.product.base.landingStyle} <br>
+				----		Landing Priority: ${data.product.base.landingPriority} <br>
+
+				<br>
+			</div>
+
+
+    </div>
+    
+    <form class="product-form" method="POST" action="<%= xssAPI.getValidHref(addToCartUrl) %>"
+          onsubmit="return validateProductQuantity('<%= productQuantityId %>') && trackCartAdd(this)"> 
+        <section class="product-submit">
+            <input type="hidden" name="redirect" value="<%= resourceResolver.map(request, redirect) %>.html"/>
+            <input type="hidden" name="redirect-product-not-found" value="<%= resourceResolver.map(request, errorRedirect) %>.html"/>
+            <input type="hidden" name="product-path" value="<%= product.getPath() %>" />
+            <span class="button-group"><input type="submit" value="Add to Cart"/><span></span></span>
+        </section>
+    </form>
+    <form method="POST" action="<%= xssAPI.getValidHref(addToSmartListUrl) %>"
+          onsubmit="return validateProductQuantity('<%= productQuantityId %>')" class="cq-cc-profile-not-anonymous">
+        <section class="product-submit">
+            <input type="hidden" name="redirect" value="<%= resourceResolver.map(request, smartListRedirect) %>.html"/>
+            <input type="hidden" name=":operation" value="addToSmartList">
+            <input type="hidden" name="_charset_" value="utf-8">
+            <input type="hidden" name="product-path" value="<%= product.getPath() %>" />
+            <p class="product-wishlist"><a class="default" href="#"><%= xssAPI.filterHTML(i18n.get("Add to Smart List")) %></a><a class="more" href="<%= product.getPath() %>.addtosmartlist.html">(+)</a></p>
+        </section>
+    </form>
+
+</div>

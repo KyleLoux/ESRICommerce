@@ -1,0 +1,36 @@
+<div data-sly-use.data="productHeroDisplay.js"></div>
+<div data-sly-test="${wcmmode.edit}" class="cq-placeholder" data-emptytext="Product Hero Display"></div>
+<sly data-sly-use.clientLib="${'/libs/granite/sightly/templates/clientlib.html'}"/> 
+<sly data-sly-call="${clientLib.css @ categories='productHeroDisplay'}" />
+ 
+<div class="column-24 mainContent">
+    <div class="column-4 mainContent">
+
+<!-- TO BE DISPLAYED ONLY IF A USER IS NOT LOGGED INTO THE SYSTEM -->
+        <p style="display:none" class="text-lighter-gray sub-nav-title font-size--1">To see all available products and pricing, please <a class="link-blue" href="">Sign In</a> or <a class="link-blue" href="">Create an account</a></p>
+<!-- END DISPLAY IF USER IS NOT LOGGED IN -->
+
+    </div>
+    <div class="column-16 mainContent pre-1">
+		<a href="${data.pagePath}.html">
+        	<img src="${data.image}">
+        </a>	
+    </div>
+    <div class="column-4 mainContent">
+    </div>
+</div>
+<div class="column-24">
+        <p class="font-size--1" style="text-align: center;">${data.caption}</p>
+    </div>
+<div class="column-24">
+    <p class="font-size-5 text-blue" style="text-align: center;"><a style="color: #0079c1" href="${data.pagePath}.html">${data.title} </a></p>
+</div>
+<div class="column-24">
+    <p class="font-size--1" style="text-align: center;">${data.description}</p>
+</div>
+
+<sly data-sly-call="${clientLib.js @ categories='productHeroDisplay'}" />
+
+
+				
+  

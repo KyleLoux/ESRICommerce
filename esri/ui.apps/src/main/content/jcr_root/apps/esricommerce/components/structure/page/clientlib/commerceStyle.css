@@ -1,0 +1,562 @@
+/*
+ *  Copyright 2015 Adobe Systems Incorporated
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+html, body {
+    letter-spacing: 0;
+    font-family: "Avenir Next W01", "Avenir Next W00", "Avenir Next", "Avenir", "Helvetica Neue", "Helvetica", "Arial", sans-serif !important;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1rem !important;
+    line-height: 1.55rem;
+    color: #4c4c4c;
+    -webkit-font-feature-settings: "kern";
+    -moz-font-feature-settings: "kern";
+    font-feature-settings: "kern";
+    font-kerning: normal;
+    text-rendering: optimizeLegibility;
+    -moz-font-feature-settings: 'liga= 1','calt=0';
+    -moz-font-feature-settings: "liga" 1,"calt" 0;
+    -webkit-font-feature-settings: "liga" 1,"calt" 0;
+    -ms-font-feature-settings: 'liga= 1','calt=0';
+    -o-font-feature-settings: "liga" 1,"calt" 0;
+    font-feature-settings: "liga" 1,"calt" 0;
+}
+h4 a {
+    color: #0079c1 !important;
+    text-decoration: none !important;
+}
+h4 a:hover {
+    color: #005e95 !important;
+}
+.card-content h4 {
+    font-size: 2.14285714rem;
+    line-height: 1.55rem;
+    font-weight: 300;
+    font-style: normal;
+    margin: 0 0 1.55rem 0;
+}
+.card-content {
+    flex: 1 1 auto;
+    text-align: left;
+    padding: 0 1.25rem 1.25rem 1.25rem !important;
+}
+.card-image-wrap {
+    margin-bottom: 50px !important;
+}
+.card-category {
+    text-align: left;
+    padding: 1.5rem 1.25rem 0 1.25rem;
+}
+.navContainer {
+    width: 100%;
+    border-bottom: 1px solid #e5e5e5;
+}
+.mainContent {
+    margin-top: 50px;
+}
+.techContent {
+    margin-top: 50px;
+    border-bottom: 1px solid #e5e5e5;
+}
+.font-size-1 {
+    font-size: 1.14285714rem !important;
+}
+.tertiary a {
+    text-decoration: none;
+    cursor: pointer;
+}
+.offerImage {
+    height: 125px;
+    margin-left: 85px;
+}
+.offerImage p {
+    margin: 0 !important;
+}
+.products p:empty {
+    margin: 20px 0 20px 45px;
+}
+.products div {
+    margin-bottom:20px;
+}
+.products div, button {
+    margin-top: 0;
+}
+.categories div {
+    margin-bottom: 10px;
+}
+.categories div, button {
+    margin-top: 10px;
+}
+.storeInfo {
+    background-color: #efefef;
+}
+.storeInfo-bg {
+    background-color: 	#0079C1;
+    width: 				100%;
+    height: 360px;
+}
+.margin-bottom-xl {
+    margin-bottom: 45px;
+}
+.margin-top-xl {
+    margin-bottom: 45px;
+}
+.storeSubMenu {
+    background: #042A59; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left, #b1b9bd, #dae4e8); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #b1b9bd, #dae4e8); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #b1b9bd, #dae4e8); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #b1b9bd, #dae4e8); /* Standard syntax */
+    height: 190px;
+}
+.selected {
+    color: #828282;
+}
+.prodName a {
+    text-decoration: none;
+    cursor: pointer;
+}
+.prodName a:hover {
+    color: #4C4C4C;
+}
+.grid-container.block-group {
+    margin-left: auto;
+    margin-right: auto;
+}
+.card.block {
+    box-shadow: none;
+    border-right: none !important;
+}
+.card.noBorder {
+    border: none;
+    margin-left: 10px;
+}
+.card.catalog {
+    border: none;
+    margin-left: 4px;
+}
+.card.block.no-margin {
+    margin-left: 0;
+}
+.card-image {
+    margin-top: 10px;
+    height: 100px;
+    padding-top: 10px;
+}
+.top-nav-title {
+    font-size: 1.55rem !important;
+    padding: 0 !important;
+}
+.top-nav-title:hover {
+    color: #4c4c4c;
+    -webkit-background-image: none;
+    -moz-background-image: none;
+    -o-background-image: none;
+    background-image: none;
+    text-decoration: none;
+}
+.top-nav-link {
+    padding: 1.4rem !important;
+}
+
+.top-nav-link:hover, .top-nav-link:focus {
+    color: #0079c1;
+    background: url(https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.0.0-beta.29/img/top-nav-ie9.gif) repeat-x bottom left transparent !important;
+}
+.btn.details {
+    padding: 0.85rem 0.9rem;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    opacity: 1 !important;
+}
+[class*="column-"] [class*="column-"]:first-of-type {
+
+    margin-left: 0;
+}
+.banner-container {
+    background-color: #EFEFEF;
+}
+.accordion-content {
+    margin-top: 15px;
+    margin-left: 15px;
+}
+.accordion-title:before {
+    font-size: 1.55rem;
+}
+.icon-ui-right {
+    font-size: 2.0rem;
+    line-height: 28.55rem;
+}
+.icon-ui-right:hover, .icon-ui-blue:hover {
+    color: #005e95 !important;
+}
+.carousel-nav a {
+    color: #007ac1;
+}
+.storeHeader a {
+    text-decoration: none;
+    cursor: pointer;
+    color: #FFFFFF;
+}
+.help img {
+    vertical-align: text-bottom;
+    margin-left: 22px;
+}
+.grid-container.prodDetails a {
+    font-weight: bold !important;
+}
+input[type='text'] {
+    box-shadow: none;
+    margin: 0;
+}
+#megamenu-search-form #submit {
+    height: 15px !important;
+}
+select {
+    display: inline-block !important;
+}
+table tr:last-child {
+    border-bottom: 1px solid #ccc !important;
+}
+.table-striped thead {
+    border-top: 1px solid #ccc;
+}
+table > thead {
+    background-color: #ccc;
+}
+
+.infoBar {
+ width: 100%;
+ height: 95px;
+ background: #efefef;
+
+}
+.thin-nav {
+    background-color: #2f2f2f !important;
+    width: 100%;
+}
+.thin-nav .sub-nav-title {
+    color: #cccccc;
+    font-size: 1.2rem;
+    margin-top: 1.15rem !important;
+    margin-bottom: 1.15rem;
+    transition: background-color 150ms linear, color 150ms 150ms linear;
+}
+.sub-nav-title {
+    font-size: 1.9994rem;
+    margin-top: 0.775rem;
+    margin-bottom: 0.775rem;
+    display: inline-block;
+    line-height: 1.25;
+}
+.thin-nav .sub-nav-title:hover, .thin-nav .sub-nav-title:focus {
+    color: white;
+    text-decoration: none;
+}
+.thin-nav .sub-nav-list {
+    float: right;
+    width: auto;
+}
+.sub-nav-list {
+    width: 100%;
+    float: left;
+}
+.thin-nav .sub-nav-link:focus, .thin-nav .sub-nav-link.is-active, .thin-nav .sub-nav-link.current-page-ancestor {
+    background-image: linear-gradient(to bottom, #000000 94%, #0079c1 96%, #0079c1 100%);
+    color: white;
+}
+.thin-nav .sub-nav-link {
+    background-color: transparent !important;
+    color: #cccccc;
+    padding-top: 1.1rem;
+    padding-bottom: 1.15rem;
+
+}
+.sub-nav-link {
+    padding: .25em .75em;
+    margin: 0 .25em 0 0;
+    float: left;
+    font-family: "Avenir Next W01","Avenir Next W00","Avenir Next","Avenir","Helvetica Neue","Helvetica","Arial",sans-serif;
+    color: #efefef;
+    font-size: 0.9375rem;
+    line-height: 1.55rem;
+    background-color: rgba(0,0,0,0.45);
+    box-sizing: border-box;
+    -webkit-transition: background-color 150ms linear,color 150ms 150ms linear;
+    transition: background-color 150ms linear,color 150ms 150ms linear;
+}
+.thin-nav .sub-nav-link:hover {
+    background-image: linear-gradient(to bottom, transparent 94%, #0079c1 96%, #0079c1 100%);
+    color: white;
+}
+.sub-nav-link:hover, .sub-nav-link:focus {
+    background-color: rgba(0,0,0,0.3);
+    color: white;
+    text-decoration: none;
+    -webkit-background-image: linear-gradient(to top,transparent 94%,white 96%,white 100%);
+    -moz-background-image: linear-gradient(to top,transparent 94%,white 96%,white 100%);
+    -o-background-image: linear-gradient(to top,transparent 94%,white 96%,white 100%);
+    background-image: linear-gradient(to top,transparent 94%,white 96%,white 100%);
+}
+a#ctaLink {
+    margin: 13px;
+}
+.trailer-half {
+    margin-bottom: 0.775rem;
+}
+.select-full {
+    width: 100%;
+}
+.fatFooter {
+    padding-bottom: 70px;
+}
+.js-modal-toggle.icon-ui-close {
+    color: #007ac1;
+}
+.js-modal-toggle.icon-ui-close:hover {
+    color: #005e95;
+}
+.alert {
+    max-width: none !important;
+}
+.tooltip {
+    position: static !important
+}
+.tooltip:hover {
+    position: relative !important;
+}
+.btn.details.btn-fill {
+    width: 25%;
+}
+.helpText {
+    font-size: 1.69949rem;
+    line-height: 2.325rem;
+}
+.helpContact, .helpPhone {
+    font-size: 1.414rem;
+    line-height: 1.55rem;
+}
+.column-17.pre-2.help {
+    margin-top: 45px;
+}
+
+/* FOR THE IE EDGE ISSUES FOR TOOLTIPS */
+
+@supports (-ms-accelerator:true) {
+    .tooltip-multiline.tooltip-left::after,
+    .tooltip-multiline.tooltip-right::after {
+        right: auto !important;
+    }
+    .tooltip-multiline::after {
+        width: -moz-max-content !important;
+        width: -webkit-max-content !important;
+        max-width: 370px !important;
+        word-break: break-all !important;
+        word-wrap: break-word !important;
+        white-space: pre !important;
+        border-collapse: separate !important;
+    }
+
+}
+.column-16.productName {
+    text-align: center;
+}
+.productName.panel.panel-white {
+    padding: 1.023rem 1.023rem 1.023rem 0;
+}
+.featuredProducts {
+    text-align: center;
+    width:100% !important;
+    max-width: 100vw !important;
+    background-color: #f3f3f3;
+}
+.featuredTitle {
+    margin-bottom: 25px;
+}
+/* FOR IE 10 & 11 ISSUES FOR THE CARDS */
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    .block-group-5-up .block {
+        flex-basis: auto;
+        width: 300px;
+        height: 450px;
+    }
+}
+@media screen and (max-width: 565px) and (min-width: 319px) {
+    .column-5.category {
+        max-width: 59.79167vw;
+    }
+}
+@media screen and (max-width: 1023px) {
+    .sub-nav-link {
+        height: 56px;
+        line-height: 56px;
+        font-size: 20px;
+        text-align: left;
+        -webkit-transform: translateY(0);
+        -moz-transform: translateY(0);
+        -ms-transform: translateY(0);
+        -o-transform: translateY(0);
+        transform: translateY(0);
+    }
+    .column-24.subNav {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        max-width: 100vw !important;
+    }
+    .grid-container.subNavHead {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .offerImage {
+        display: none;
+    }
+
+    .column-4.cardImage {
+        display: none;
+    }
+
+    .btn.details.btn-fill {
+        width: 100%;
+    }
+
+    .column-17.pre-2.help {
+        padding-bottom: 20px;
+        margin-top: 10px
+    }
+
+    .block-group-3-up .card.block {
+        -ms-flex-preferred-size: calc(50% - 1.5rem);
+        flex-basis: calc(50% - 1.5rem);
+    }
+}
+@media screen and (max-width: 1399px) and (min-width: 859px){
+    .block-group-3-up .card.block {
+        -ms-flex-preferred-size: calc(33.333333% - 1.5rem);
+        flex-basis: calc(33.333333% - 1.5rem);
+    }
+}
+@media screen and (min-width: 860px){
+    .pre-2 {
+        margin-left: 0 !important;
+    }
+}
+@media screen and (max-width: 1400px) and (min-width: 451px) {
+    .column-5.category {
+        max-width: 45.79167vw;
+    }
+
+    .offerImage {
+        margin-left: 25px;
+    }
+}
+@media screen and (max-width: 564px) {
+    .block-group-3-up .card.block {
+        -ms-flex-preferred-size: calc(99.999999% - 1.5rem);
+        flex-basis: calc(99.999999% - 1.5rem);
+    }
+}
+@media screen and (max-width: 859px) {
+    .helpText, .helpContact, .helpPhone {
+        font-size: 1.0rem;
+    }
+}
+@media screen and (max-width: 750px) {
+    .mobile-show {
+        display: block !important;
+    }
+    .mobile-hide {
+        display: none !important;
+    }
+}
+@media screen and (min-width: 751px) {
+    .mobile-show {
+        display: none !important;
+    }
+    .mobile-hide {
+        display: block !important;
+    }
+}
+
+
+@media screen and (max-width: 760px) and (min-width: 200px) {
+    #responsive-menu {
+        background: #F2F2F2;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+        -webkit-box-shadow: 1px 1px 1px #ccc;
+        -moz-box-shadow: 1px 1px 1px #ccc;
+        box-shadow: 1px 1px 1px #ccc;
+        bottom: -10px;
+        height: 100%;
+        margin: 0 2%;
+        /* margin-bottom: 20px; */
+        position: relative;
+        width: 96%;
+    }
+
+    .hide-desktop, #global-search, #global-menu, #responsive-menu, #responsive-menu ul, #events-search {
+        display: none;
+    }
+}
+    @media screen and (max-width: 760px) and (min-width: 200px) {
+        #responsive-menu {
+            margin-bottom: 20px;
+        }
+    }
+        @media screen and (max-width: 760px) and (min-width: 200px) {
+            #responsive-menu {
+                background: #F2F2F2;
+                -webkit-border-radius: 4px;
+                -moz-border-radius: 4px;
+                border-radius: 4px;
+                -webkit-box-shadow: 1px 1px 1px #ccc;
+                -moz-box-shadow: 1px 1px 1px #ccc;
+                box-shadow: 1px 1px 1px #ccc;
+                bottom: -10px;
+                height: 100%;
+                margin: 0 2%;
+                position: relative;
+                width: 96%;
+            }
+
+            .hide-desktop, #global-search, #global-menu, #responsive-menu, #responsive-menu ul, #events-search {
+                display: none;
+            }
+
+            #responsive-menu {
+                display: none !important;
+            }
+
+            #responsive-menu #responsiveMobileMenu {
+                display: none;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                background: #F2F2F2;
+                -webkit-border-radius: 0 0 4px 4px;
+                -moz-border-radius: 0 0 4px 4px;
+                border-radius: 0 0 4px 4px;
+                -webkit-box-shadow: 1px 1px 1px #ccc;
+                -moz-box-shadow: 1px 1px 1px #ccc;
+                box-shadow: 1px 1px 1px #ccc;
+                position: absolute;
+                z-index: 100;
+
+            }
+        }

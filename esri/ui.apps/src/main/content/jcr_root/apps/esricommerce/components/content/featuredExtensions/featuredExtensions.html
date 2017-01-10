@@ -1,0 +1,26 @@
+<div data-sly-use.data="featuredExtensions.js"></div>
+<div data-sly-test="${wcmmode.edit}" class="cq-placeholder" data-emptytext="Featured Extensions"></div>
+<sly data-sly-use.clientLib="${'/libs/granite/sightly/templates/clientlib.html'}"/> 
+<sly data-sly-call="${clientLib.css @ categories='featuredExtensions'}" />
+
+<!-- EXTENSIONS SECTION (IF APPLICABLE) - TO BE SHOWN ONLY IF PRODUCT HAS EXTENSIONS -->
+<div class="grid-container">
+    <div class="column-24 mainContent">
+        <p class="font-size-3 text-blue" style="text-align: center;">${data.title}</p>
+    </div>
+<!-- THREE COLUMNS FOR AVAILABLE SECTIONS, REPEAT AS NECESSARY -->
+	<div  data-sly-list="${data.extensions}">
+		<div class="column-24 mainContent">
+	        <div class="column-8" data-sly-test="${item.extension1}">
+	            <p class="font-size-1 text-blue" style="text-align: center;"><a class="text-blue" href="${item.extension1.pagePath}.html">${item.extension1.title}</a></p>
+	    	</div>
+	        <div class="column-8" data-sly-test="${item.extension2}">
+	            <p class="font-size-1 text-blue" style="text-align: center;"><a class="text-blue" href="${item.extension2.pagePath}.html">${item.extension2.title}</a></p>
+	    	</div>
+	    	<div class="column-8" data-sly-test="${item.extension3}">
+	            <p class="font-size-1 text-blue" style="text-align: center;"><a class="text-blue" href="${item.extension3.pagePath}.html">${item.extension3.title}</a></p>
+	    	</div>
+	   	</div>
+	</div>
+</div>
+<!-- END EXTENSIONS SECTION -->

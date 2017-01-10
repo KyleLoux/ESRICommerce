@@ -1,0 +1,71 @@
+<sly data-sly-use.product="productOverview.js">
+{
+  "SeriesName": "${product.base.title}",
+  "StartingPrice": "${product.base.msrp}",
+  "SeriesId": ${product.base.sku},
+  "SeriesCode": "camry",
+  "SeriesDefaultImageSrc": "${product.base.image}",
+  "SeriesTagline": "${product.base.description}",
+  "SeriesCityMpg": "${product.base.citympg}",
+  "SeriesHighwayMpg": "${product.base.highwaympg}",
+  "VehicleModels": [
+    {
+      "ModelName": "XLE",
+      "ModelImageSrc": "/-/media/Toyota-Motor/Toyota-Motor-North-America/Vehicles/Models/Camry/2017/camryxle.jpg",
+      "ModelStartingPrice": "$26,310",
+      "ModelCityMpg": "24",
+      "ModelHighwayMpg": "33",
+      "VehicleTrims": [
+        {
+          "TrimName": "XLE",
+          "Transmission": "6-Speed Automatic",
+          "Engine": "2.5-Liter 4-Cylinder",
+          "TrimCityMpg": 24,
+          "TrimHighwayMpg": 33,
+          "TrimStartingPrice": 26310,
+          "StandardFeatures": [],
+          "OptionalFeatures": []
+        }
+      ]
+    },
+    {
+      "ModelName": "SE",
+      "ModelImageSrc": "/-/media/Toyota-Motor/Toyota-Motor-North-America/Vehicles/Models/Camry/2017/cmaryse.jpg",
+      "ModelStartingPrice": "$0",
+      "ModelCityMpg": "0",
+      "ModelHighwayMpg": "0",
+      "VehicleTrims": []
+    },
+    {
+      "ModelName": "LE",
+      "ModelImageSrc": "/-/media/Toyota-Motor/Toyota-Motor-North-America/Vehicles/Models/Camry/2017/camryle.jpg",
+      "ModelStartingPrice": "$23,070",
+      "ModelCityMpg": "24",
+      "ModelHighwayMpg": "33",
+      "VehicleTrims": [
+        {
+          "TrimName": "LE",
+          "Transmission": "6-Speed Automatic",
+          "Engine": "2.5-Liter 4-Cylinder",
+          "TrimCityMpg": 24,
+          "TrimHighwayMpg": 33,
+          "TrimStartingPrice": 23070,
+          "StandardFeatures": [
+            {
+              "FeatureTitle": "Auto on-off Halogen Sport Headlights",
+              "FeatureCategory": "Exterior",
+              "FeatureDescription": "Projector-beam halogen headlights with black sport trim bezels and auto on/off feature"
+            },
+            {
+              "FeatureTitle": "Intermittent windshield wipers",
+              "FeatureCategory": "Exterior",
+              "FeatureDescription": "Washer-linked intermittent windshield wipers"
+            }
+          ],
+          "OptionalFeatures": []
+        }
+      ]
+    }
+  ]
+}
+</sly>

@@ -1,0 +1,36 @@
+<div data-sly-use.data="textImage.js"></div>
+<div data-sly-test="${wcmmode.edit}" class="cq-placeholder" data-emptytext="Text Image"></div>
+<sly data-sly-use.clientLib="${'/libs/granite/sightly/templates/clientlib.html'}"/> 
+<sly data-sly-call="${clientLib.css @ categories='textImage'}" />
+ 
+ <!--BEGIN PRODUCT INFORMATION SECTION (LEFT IMAGE, RIGHT TEXT)-->
+<div class="grid-container">
+	<div class="column-24 techContent" data-sly-test.left="${data.location == 'left'}">
+	<!--INSERT CODE FOR SECTION IMAGE-->
+	    <div class="column-9 productContent" style="margin-top:25px;">
+	        <img src="${data.image}">
+	    </div>
+	<!--INSERT SECTION TITLE HERE-->
+	    <div class="column-12 productContent">
+	        <h2 class="font-size-3">${data.title}</h2>
+	<!--INSERT TEXT FOR SECTION CONTENT-->
+	        <p class="font-size-1" style="margin-top:25px;">${data.text}</p>
+	    </div>
+	</div>
+	
+	<!--BEGIN PRODUCT INFORMATION SECTION (RIGHT IMAGE, LEFT TEXT)-->
+	<div class="column-24 techContent" data-sly-test="${!left}">
+	<!--INSERT SECTION TITLE HERE-->
+	    <div class="column-12 productContent">
+	        <h2 class="font-size-3">${data.title}</h2>
+	<!--INSERT TEXT FOR SECTION CONTENT-->
+	        <p class="font-size-1" style="margin-top:25px;">${data.text}</p>
+	    </div>
+	<!--INSERT CODE FOR SECTION IMAGE-->
+	    <div class="column-9 productContent" style="margin-top:25px;">
+	        <img src="${data.image}">
+	    </div>
+	</div>
+</div>
+				
+  

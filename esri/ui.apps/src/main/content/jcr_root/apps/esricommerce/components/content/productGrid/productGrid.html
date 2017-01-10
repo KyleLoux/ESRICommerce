@@ -1,0 +1,42 @@
+<div data-sly-use.data="productGrid.js"></div>
+<div data-sly-test="${wcmmode.edit}" class="cq-placeholder" data-emptytext="Catalog Product Grid"></div>
+<sly data-sly-use.clientLib="${'/libs/granite/sightly/templates/clientlib.html'}"/> 
+<sly data-sly-call="${clientLib.css @ categories='productGrid'}" />
+
+<!-- BEGIN OTHER PRODUCTS SECTION - TWO PRODUCTS PER ROW - REPEAT DIV AS NECESSARY -->
+<div class="grid-container featuredProducts">
+    <h2 class="font-size-5 featuredTitle"></h2>
+
+    <!-- CODE FOR TWO CARDS ACROSS-->
+    <div class="grid-container block-group block-group-2-up products">
+        <div class="column-22 pre-1">
+        	<div data-sly-list="${data.products}">
+	            <div class="block-group block-group-2-up">
+	                <div class="card block" data-sly-test="${item.product1}">
+	                    <figure class="card-image-wrap">
+	                        <img class="card-image" src="${item.product1.image}" alt="Insert Image Here">
+	                    </figure>
+	                    <p class="font-size--1 card-category">${item.product1.labelCaption}</p>
+	                    <div class="card-content">
+	                        <h4><a href="${item.product1.pagePath}.html">${item.product1.title}</a></h4>
+	                        <p class="font-size-1 card-last">${item.product1.summaryDescription}</p>
+	                    </div>
+	                </div>
+	                <div class="card block" data-sly-test="${item.product2}">
+	                    <figure class="card-image-wrap">
+	                        <img class="card-image" src="${item.product2.image}" alt="Insert Image Here">
+	                    </figure>
+	                    <p class="font-size--1 card-category">${item.product2.labelCaption}</p>
+	                    <div class="card-content">
+	                        <h4><a href="${item.product2.pagePath}">${item.product2.title}</a></h4>
+	                        <p class="font-size-1 card-last">${item.product2.summaryDescription}</p>
+	                    </div>
+	                </div>
+	            </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END FEATURED PRODUCTS SECTION -->
+				
+  

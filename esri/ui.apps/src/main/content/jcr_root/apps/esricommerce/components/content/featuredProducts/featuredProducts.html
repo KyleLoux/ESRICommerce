@@ -1,0 +1,48 @@
+<div data-sly-use.data="featuredProducts.js"></div>
+<div data-sly-test="${wcmmode.edit}" class="cq-placeholder" data-emptytext="Featured Products"></div>
+<sly data-sly-use.clientLib="${'/libs/granite/sightly/templates/clientlib.html'}"/> 
+<sly data-sly-call="${clientLib.css @ categories='featuredProducts'}" />
+
+<!-- BEGIN FEATURED PRODUCTS SECTION -->
+<div class="grid-container featuredProducts">
+        <h2 class="font-size-5 featuredTitle">Featured Products</h2>
+
+	<!-- CODE FOR THREE CARDS ACROSS-->
+	<div class="grid-container block-group block-group-3-up products">
+	    <div class="column-22 pre-1">
+	        <div class="block-group block-group-3-up">
+	            <div class="card block">
+	                <figure class="card-image-wrap">
+	                    <img class="card-image" src="${data.featuredProduct1.image}" alt="Alt Image">
+	                </figure>
+	                <p class="font-size--1 card-category">${data.featuredProduct1.labelCaption}</p>
+	                <div class="card-content">
+	                    <h4><a href="${data.featuredProduct1.pagePath}.html">${data.featuredProduct1.title}</a></h4>
+	                    <p class="font-size-1 card-last">${data.featuredProduct1.summaryDescription}</p>
+	                </div>
+	            </div>
+	            <div class="card block">
+	                <figure class="card-image-wrap">
+	                    <img class="card-image" src="${data.featuredProduct2.image}" alt="Alt Image">
+	                </figure>
+	                <p class="font-size--1 card-category">${data.featuredProduct2.labelCaption}</p>
+	                <div class="card-content">
+	                    <h4><a href="${data.featuredProduct2.pagePath}.html">${data.featuredProduct2.title}</a></h4>
+	                    <p class="font-size-1 card-last">${data.featuredProduct2.summaryDescription}</p>
+	                </div>
+	            </div>
+	            <div class="card block">
+	                <figure class="card-image-wrap">
+	                    <img class="card-image" src="${data.featuredProduct3.image}" alt="Alt Image">
+	                </figure>
+	                <p class="font-size--1 card-category">${data.featuredProduct3.labelCaption}</p>
+	                <div class="card-content">
+	                    <h4><a href="${data.featuredProduct3.pagePath}.html">${data.featuredProduct3.title}</a></h4>
+	                    <p class="font-size-1 card-last">${data.featuredProduct3.summaryDescription}</p>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+</div>
+<!-- END FEATURED PRODUCTS SECTION -->

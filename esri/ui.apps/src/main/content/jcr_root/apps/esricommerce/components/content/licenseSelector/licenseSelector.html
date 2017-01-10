@@ -1,0 +1,155 @@
+<div data-sly-use.data="licenseSelector.js"></div>
+<div data-sly-test="${wcmmode.edit}" class="cq-placeholder" data-emptytext="License Selector"></div>
+<sly data-sly-use.clientLib="${'/libs/granite/sightly/templates/clientlib.html'}"/> 
+<sly data-sly-call="${clientLib.css @ categories='licenseSelector'}" />
+<div data-sly-call="${clientLib.all @ categories='granite.csrf.standalone'}"></div>
+
+<div data-sly-use.access="${'esri.commerce.esri.core.services.AccessToken'}"></div>
+
+<iframe name="hiddenFrame" width="0" height="0" border="0" style="display: none;"></iframe>
+
+
+<form target="hiddenFrame" id="addToCart" class="we-Product-form" action="${ data.product.addToCartUrl }" method="POST"> 
+	
+	<input type="hidden" name="redirect" value="${data.product.redirect}.html"/>
+	<!-- <p class="font-size--1" style="margin-top: 25px;">License Type &nbsp;&nbsp;<a class="js-modal-toggle font-size--2 link-blue" href="#" data-modal="foo">Help me choose</a></p> -->
+	<div data-sly-list="${data.product.children}">
+		<p data-sly-test="${item.first}" class="font-size-1 licenseTypes">
+	        <div data-sly-use.getPrice="${'esri.commerce.esri.core.services.GetPrice' @ locale=data.locale, token=access.token, secret=access.secret, sku=item.sku}"></div>
+	        <input id="license${itemList.index}" type="radio" name="licenseType" value="${item.productPath}" checked>
+	        <label for="license${itemList.index}" class="license1 label1 font-size--1 selected">${item.title} <br /><br />$${getPrice.product.esriListUnitPrice}</label>
+	    </p>
+		<p data-sly-test="${!item.first}" class="font-size-1 licenseTypes">
+	        <div data-sly-use.getPrice="${'esri.commerce.esri.core.services.GetPrice' @ locale=data.locale, token=access.token, secret=access.secret, sku=item.sku}"></div>
+	        <input id="license${itemList.index}" type="radio" name="product-path" value="${item.productPath}">
+	        <label for="license${itemList.index}" class="license2 label2 font-size--1">${item.title} <br /><br />$${getPrice.product.esriListUnitPrice}</label>
+	    </p>	    
+    </div>
+	<div class="column-12 productContent">
+        <hr>
+        <p class="font-size-1">Quantity
+            <input min="0" value="0" id="quantity" style="margin-left:10px; width: 70px; display: inline-block !important;" required="" aria-required="true" type="number" name="product-quantity">
+        </p>
+        <hr class="addtoCart">
+        <button id="myButton" type="submit" class="btn details btn-fill" disabled>Add to Cart</button>
+        <span class="font-size-1 text-off-black icon-ui-description alert is-active" style="margin-top: 10px; text-align:center;">This purchase qualifies for a multiple quantity discount. Please contact us at 800-447-9778 for a quotation.
+		</span>
+    </div>
+</form>
+<div class="js-modal modal-overlay " data-modal="foo">
+    <div class="modal-content column-12" aria-labelledby="modal" role="dialog">
+
+        <a class="js-modal-toggle right" href="#" aria-label="close-modal">
+            <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 32 32" class="svg-icon"><path d="M18.404 16l9.9 9.9-2.404 2.404-9.9-9.9-9.9 9.9L3.696 25.9l9.9-9.9-9.9-9.898L6.1 3.698l9.9 9.899 9.9-9.9 2.404 2.406-9.9 9.898z"/></svg>
+        </a>
+
+        <!-- <h3 class="trailer-half font-size-2">License Types</h3>  -->
+        <p>${data.modal}</p>
+
+        <div class="text-right">
+            <button class="btn js-modal-toggle">ok</button>
+            <button class="btn-clear js-modal-toggle">cancel</button>
+        </div>
+    </div>
+</div>
+   
+   
+<sly data-sly-call="${clientLib.js @ categories='licenseSelector'}"></sly>
+
+<!-- FUNCTION TO ENABLE ADD TO CART BUTTON WHEN QUANTITY IS GREATER THAN OR EQUAL TO ONE BASED ON LICENSE-->
+<script>
+    $('#quantity').change(function() {
+        if ($('#quantity').val() == 1 && ($('#license1').is(':checked')) || ($('#quantity').val() >= 1 && ($('#license1').is(':checked'))))
+            $("#myButton").removeAttr("disabled");
+        else
+            $("#myButton").attr("disabled", "disabled");
+    });
+</script>
+<!-- SCRIPT FOR FUNCTION TO ADD/REMOVE A SELECTED CLASS AND CSS FOR THE LICENSE TYPE SELECTION BOXES-->
+<script>
+    $("label.license2").on("click", function() {
+        $("label.license2")
+                .addClass("selected");
+        $("label.license1")
+                .removeClass("selected");
+        if ($('#quantity').val() >= 1)
+            $("#myButton").removeAttr("disabled");
+        else
+            $("#myButton").attr("disabled", "disabled");
+    });
+    $("label.license1").on("click", function() {
+        $("label.license1")
+                .addClass("selected");
+        $("label.license2")
+                .removeClass("selected");
+        if ($('#quantity').val() == 1)
+            $("#myButton").removeAttr("disabled");
+        else
+            $("#myButton").attr("disabled", "disabled");
+    });
+</script>
+<!-- SCRIPT FOR MODAL LICENSE SWITCHER -->
+<script>
+    $('#extQuantity').change(function() {
+        if ($('#extQuantity').val() == 1 && ($('#extLicense').is(':checked')) || ($('#extQuantity').val() >= 1 && ($('#extlicense1').is(':checked'))))
+            $("#extButton").removeAttr("disabled");
+        else
+            $("#extButton").attr("disabled", "disabled");
+    });
+</script>
+<script>
+    $("label.extlicense1").on("click", function() {
+        $("label.extlicense1")
+                .addClass("selected");
+        $("label.extLicense1")
+                .removeClass("selected");
+        if ($('#extQuantity').val() >= 1)
+            $("#extButton").removeAttr("disabled");
+        else
+            $("#extButton").attr("disabled", "disabled");
+    });
+    $("label.extLicense1").on("click", function() {
+        $("label.extLicense1")
+                .addClass("selected");
+        $("label.extlicense1")
+                .removeClass("selected");
+        if ($('#extQuantity').val() == 1)
+            $("#extButton").removeAttr("disabled");
+        else
+            $("#extButton").attr("disabled", "disabled");
+    });
+</script>
+<!-- SCRIPT FOR REMOVING CART BUTTON AND ADDING QUANTITY DISCOUNT MESSAGING -->
+<script>
+      $('#quantity').change(function () {
+          if ($('#quantity').val() >= 2 && ($('#license0').is(':checked'))) {
+              $('#myButton').hide();
+              $("span.alert").show();
+          }
+          else if
+              ($('#quantity').val() == 1 && ($('#license0').is(':checked'))) {
+              $('#myButton').show();
+              $('span.alert').hide();
+          }
+      });
+      $(document).ready(function () {
+          if ($('#license1').is(':checked') && ($('#quantity').val() == 0))
+          {
+              $('#myButton').show();
+              $('span.alert').hide();
+
+          }
+      });
+      $("label.license1").on("click", function() {
+              $('#myButton').show();
+              $('span.alert').hide();
+
+      });
+
+</script>
+<script>
+    $("#myButton").on("click", function() {
+            $('.subtotal').slideDown(500).delay(10000).slideUp(500); 
+            $('.subtotal-text').text(5 Item(s) Added to Cart)           
+    });
+</script>

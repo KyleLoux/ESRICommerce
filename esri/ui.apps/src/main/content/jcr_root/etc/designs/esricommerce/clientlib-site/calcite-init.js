@@ -1,0 +1,3 @@
+(function () {
+        calcite.init();
+    })();

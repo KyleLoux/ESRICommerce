@@ -1,0 +1,40 @@
+<!--/*
+    Copyright 2015 Adobe Systems Incorporated
+  
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+  
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+*/-->
+<div class="page__main" data-sly-use.main="main.js">
+    <header class="page__header">
+		<div data-sly-resource="${ @path='topnav', resourceType='/apps/esricommerce/components/structure/topnav'}" id="parsys" data-sly-unwrap></div>
+    </header>
+	
+	 <!-- BEGIN MAIN CONTENT SECTION -->
+<div class="grid-container">
+    <div class="column-24 mainContent">
+		<div data-sly-resource="${ @path='car', resourceType='/apps/esricommerce/components/content/imageCarousel'}" id="carousel"></div>
+		<div data-sly-resource="${ @path='des', resourceType='/apps/esricommerce/components/content/productDescription'}" id="description"></div>
+		<div data-sly-resource="${ @path='chi', resourceType='/apps/esricommerce/components/content/childProducts'}" id="children"></div>
+	</div>
+</div>
+<div class="grid-container featuredProducts leader-3">
+	<p class="font-size-3 leader-1 trailer-1">${main.bannerText}  <a class="link-blue" href="${main.bannerLink}.html" style="text-decoration:none">${main.bannerCTA}</a></p>
+</div>
+
+	
+	<div data-sly-resource="${ @path='par', resourceType='wcm/foundation/components/parsys'}" id="parsys"></div>
+	<div data-sly-resource="${ @path='fea', resourceType='/apps/esricommerce/components/content/featuredProducts'}" id="featuredProduct"></div>
+
+    <footer class="page__footer">
+        <p class="page__copyright">${"&copy; {0} ESRICommerce Site Site. All rights reserved." @ i18n, format=main.year, context='html'}</p>
+    </footer>
+</div>

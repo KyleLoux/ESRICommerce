@@ -13,8 +13,35 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */-->
-<ul class="topnav" data-sly-use.topnav="topnav.js" data-sly-list="${topnav.items}">
+<!--<ul class="topnav" data-sly-use.topnav="topnav.js" data-sly-list="${topnav.items}">
     <li class="topnav__item ${item.selected && 'topnav__item--selected'}">
         <a class="topnav__link" href="${item.page.path}.html">${item.page.title}</a> 
     </li>
-</ul>
+</ul> -->
+
+<sly data-sly-use.topnav="topnav.js"></sly>	
+<div id="buildMegaMenu" class="clearfix"></div>
+<header id="navigation" class="sub-nav thin-nav" role="navigation">
+    <div class="grid-container">
+		<div class="column-4 tablet-column-2 phone-column-3">
+            <a class="sub-nav-title text-lighter-gray" href="http://store.esri.com" rel="home">Welcome to the store</a>
+        </div>
+<!-- SUB NAVIGATION NEEDS TO BE POPULATED BASED ON NUMBER OF MENU ITEMS -->
+        <select class="mobile-sub-nav-list mobile-show select-full trailer-half js-select-nav" data-sly-list="${topnav.items}">
+            <option value="${item.page.path}.html" selected="">${item.page.title}</option>
+        </select>
+        <div class="column-18 tablet-column-6 phone-column-4">
+            <nav class="sub-nav-list mobile-hide" role="navigation" aria-labelledby="subnav" data-sly-list="${topnav.items}">
+                <a data-sly-test.active="${item.selected}" href="${item.page.path}.html" class="sub-nav-link is-active">${item.page.title}</a>
+                <a data-sly-test="${!active}"href="${item.page.path}.html" class="sub-nav-link">${item.page.title}</a>
+            </nav>
+        </div>
+        <!-- SHOPPING CART ICON AND TEXT -->
+        <div class="column-2">
+        	<a class="sub-nav-link" href="${topnav.cartPath}.html">
+            	<img src="/apps/esricommerce/components/structure/topnav/clientlib/img/shopping-cart-24.png">&nbsp;&nbsp;Cart
+			</a>
+        </div>
+        <!-- END SUB NAVIGATION -->
+    </div>
+</header>

@@ -1,0 +1,19 @@
+<div data-sly-use.data="productDescription.js"></div>
+<div data-sly-test="${wcmmode.edit}" class="cq-placeholder" data-emptytext="Product Description"></div>
+<sly data-sly-use.clientLib="${'/libs/granite/sightly/templates/clientlib.html'}"/> 
+<sly data-sly-call="${clientLib.css @ categories='productDescription'}" />
+ 
+<!--INSERT MAIN PRODUCT CONTENT HERE-->
+        <div class="column-12 productContent">
+            <h2 class="font-size-6">${data.product.base.title}</h2>
+<!--INSERT TEXT FOR MAIN BODY CONTENT-->
+            <p class="font-size-1" style="margin-top:25px;">${data.product.base.detailedDescription} <br>
+			</p>
+        </div>
+
+
+<sly data-sly-call="${clientLib.js @ categories='productDescription'}" />
+
+
+				
+  
