@@ -2,8 +2,7 @@
 <div data-sly-test="${wcmmode.edit}" class="cq-placeholder" data-emptytext="Extension Grid"></div>
 <sly data-sly-use.clientLib="${'/libs/granite/sightly/templates/clientlib.html'}"/> 
 <sly data-sly-call="${clientLib.css @ categories='extensionGrid'}" />
-
-
+<div data-sly-use.access="${'esri.commerce.esri.core.services.AccessToken'}"></div>
 <!-- BEGIN RECOMMENDED EXTENSIONS SECTION (IF APPLICABLE) -->
 <div class="grid-container recommendExt">
     <h2 class="font-size-5 leader-1 trailer-2" style="text-align: center;">Recommended Extensions</h2>
@@ -12,6 +11,8 @@
     <div class="grid-container block-group block-group-3-up products">
         <div class="column-22 pre-1">
             <div class="block-group block-group-3-up" data-sly-list="${data.extensions}">
+				<div data-sly-use.getPrice="${'esri.commerce.esri.core.services.GetPrice' @ locale=data.locale, token=access.token, secret=access.secret, gcid=item.gcid1}"></div>            
+				<div data-sly-use.getPrice2="${'esri.commerce.esri.core.services.GetPrice' @ locale=data.locale, token=access.token, secret=access.secret, gcid=item.gcid2}"></div>
                 <div class="card block">
                     <figure class="card-image-wrap">
                         <img class="card-image" src="${item.image}" alt="Insert Image Here">
@@ -20,7 +21,7 @@
                         <h4><a href="#">${item.title}</a></h4>
                         <p class="font-size-1 card-last">${item.summaryDescription @ context='html'}</p>
                         <p style="margin: 0 !important;">
-                            <a class="js-modal-toggle btn btn-fill leader-1" data-title="${item.title}" data-sku="${item.sku}" data-product="${item.productPath}" data-paths="${item.childPaths}"  href="" data-modal="recommendExtension">Buy Now</a>
+                            <a class="js-modal-toggle btn btn-fill leader-1" data-title="${item.title}" data-gcid="${item.gcid}" data-product="${item.productPath}" data-paths="${item.childPaths}"  href="" data-modal="recommendExtension" data-sly-attribute.data-price1="${getPrice.product.esriListUnitPrice}" data-sly-attribute.data-price2="${getPrice2.product.esriListUnitPrice}">Buy Now</a>
                         </p>
                         <a class="font-size-1 link-blue padding-leader-1" href="${item.path}" style="text-align: center;">Learn More</a>
                     </div>
@@ -29,6 +30,7 @@
         </div>
     </div>
 </div>
+
 <!-- END RECOMMENDED EXTENSIONS SECTION -->
 <!-- MODAL FOR RECOMMENDED EXTENSIONS BUY NOW -->
     <!--MODAL CONTENT-->
@@ -43,11 +45,11 @@
             <h2  class="trailer-half font-size-4" style="margin-bottom:25px;"><i id="modalTitle">Product Title</i></h2>
             <p class="font-size-1 licenseTypes">
                 <input id="extLicense" type="radio" name="product-path" value="perpetual2" checked>
-                <label for="extLicense" class="extLicense1 label1 font-size--1 selected">Perpetual <br /><br />Price Here</label>
+                <label id="extLicenseLabel" for="extLicense" class="extLicense1 label1 font-size--1 selected">Perpetual <br /><br /><span id="price1"></span></label>
             </p>
             <p class="font-size-1 licenseTypes">
                 <input id="extLicense2" type="radio" name="product-path" value="term2">
-                <label for="extLicense2" class="extLicense2 label2 font-size--1">One-year Subscription <br /><br />Price Here</label>
+                <label id="extLicenseLabel2" for="extLicense2" class="extLicense2 label2 font-size--1">One-year Subscription <br /><br /><span id="price2"></span></label>
             </p>
             <div class="column-12 productContent">
                 <hr>
@@ -99,18 +101,22 @@
 </script>
 <script>
 $(document).on("click", ".js-modal-toggle", function () {
-     var sku = $(this).data('sku');
+     var gcid = $(this).data('gcid');
      var title = $(this).data('title');
      var productPath = $(this).data('product');
      var childPaths = $(this).data('paths');
+     var price1 = $(this).data('price1');
+     var price2 = $(this).data('price2');
      childPaths = childPaths.split(",")
-     console.log("open modal with sku " + sku)
+     console.log("open modal with gcid " + gcid)
      console.log("open modal with title " + title)
      console.log("open modal with product path " + productPath)
      console.log("open modal with paths " + childPaths[0] + " " + childPaths[1])
      $("#modalTitle").text(title)
      $("#extLicense").val(childPaths[0])
      $("#extLicense2").val(childPaths[1])
+     $("#price1").html(price1)
+     $("#price2").html(price2)
 });
 
 </script>				

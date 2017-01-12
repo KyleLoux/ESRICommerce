@@ -5,8 +5,8 @@
 <sly data-sly-call="${clientLib.css @ categories='cart'}" />
 <div data-sly-call="${clientLib.all @ categories='granite.csrf.standalone'}"></div>
 <div data-sly-use.access="${'esri.commerce.esri.core.services.AccessToken'}"></div>
-<div data-sly-use.getTotalPrice="${'esri.commerce.esri.core.services.GetTotalPrice' @ locale=data.locale, token=access.token, secret=access.secret, skus=data.skus, quantities=data.quantities}"></div>
-
+<div data-sly-use.validate="${'esri.commerce.esri.core.services.ValidateCart' @ skus=data.skus, quantities=data.quantities, endDates=data.endDates}"></div>
+<div data-sly-use.getTotalPrice="${'esri.commerce.esri.core.services.GetTotalPrice' @ locale=data.locale, token=access.token, secret=access.secret, gcids=data.gcids, quantities=data.quantities}"></div>
 <!--INSERT CODE FOR CART TABLE HEADERS-->
 <div class="grid-container">
     <div class="column-24 mainContent">
@@ -70,12 +70,12 @@
         <div class="column-9 productContent">
             <p class="addInfo font-size-2">${item.getProduct.getTitle}</p>
             <p data-sly-test="${data.products[itemList.index].license}" class="addInfo font-size--1">License Type: ${data.products[itemList.index].license}</p>
-            <p data-sly-test="${data.products[itemList.index].license == 'One-Year Subscription'}"class="addInfo font-size--1">Start Date: ${data.products[itemList.index].startDate}</p>
-            <p data-sly-test="${data.products[itemList.index].license == 'One-Year Subscription'}"class="addInfo font-size--1">End Date: ${data.products[itemList.index].endDate}</p>
+            <p data-sly-test="${data.products[itemList.index].license == 'One-Year Subscription'}"class="addInfo font-size--1">Start Date: ${data.products[itemList.index].startDateText}</p>
+            <p data-sly-test="${data.products[itemList.index].license == 'One-Year Subscription'}"class="addInfo font-size--1">End Date: ${data.products[itemList.index].endDateText}</p>
         </div>
-        <div data-sly-use.getPrice="${'esri.commerce.esri.core.services.GetPrice' @ locale=data.locale, token=access.token, secret=access.secret, sku=data.products[itemList.index].sku}"></div>        
+        <div data-sly-use.getPrice="${'esri.commerce.esri.core.services.GetPrice' @ locale=data.locale, token=access.token, secret=access.secret, gcid=data.products[itemList.index].gcid, startDate=data.products[itemList.index].startDate, endDate=data.products[itemList.index].endDate}"></div>        
         <div class="column-6 productContent">
-            <p class="font-size-2 price" style="margin-top:5px;">$ ${getPrice.product.esriListUnitPrice}
+            <p class="font-size-2 price" style="margin-top:5px;">$ ${getPrice.price}
 
 <!-- TOOLTIP FOR PRORATED PRICING - COMMENT AND UNCOMMENT AS NECESSARY -->
                 <a class="tooltip tooltip-multiline tooltip-right" aria-label="This is a prorated price based on a prorated subscription." ><span class="icon-ui-description icon-ui-blue"></span></a>
@@ -92,7 +92,7 @@
 
 
 <!-- CHOOSE LICENSE TO ADD EXTENSION TO SECTION (BOX AS PER WIREFRAME CART - EXT PRORATION- STEP 1 SHOULD BE REPEATED FOR EACH PRODUCT THAT NEEDS IT FROM ABOVE (IF APPLICABLE)-->
-<div hidden class="grid-container" style="margin-bottom:25px"">
+<div class="grid-container" style="margin-bottom:25px;" data-sly-test="${!validate.isCartIsValid}">
     <div class="column-24 mainContent">
         <div class="column-3 productContent">
             <h3 class="cartText font-size-6"></h3>
@@ -133,13 +133,30 @@
     </div>
 </div>
 <div class="grid-container">
+<form method="POST" action="https://ordersummary-dev.esri.com/custom/testorder/index.php">
+<input type='hidden' name='authKey' type='text' value='3df45282dd3b8859254419d0b54d4d50'/>
+<input type='hidden' name='userName' type='text' value='smch_internal'/>
+<input type='hidden' name='customerNumber' type='text' value='smch_customer'/>
+<input type='hidden' name='distributorNumber' type='text' value='${data.distributor}'/> 
+<input type='hidden' name='country' type='text' value='${data.country}'/> 
+<input type='hidden' name='currency' type='text' value='${data.currency}'/>
+<input type='hidden' name='locale' type='text' value='${data.formLocale}'/>
+<input type='hidden' name='orderType' type='text' value='manualrenewal'/> 
+<div data-sly-list.item="${data.cart.products}">
+<input type='hidden' name='product[${data.products[itemList.index].gcid}][qty]' type='text' value='1'/> 
+<input type='hidden' name='product[${data.products[itemList.index].gcid}][subscriptionID]' type='text' value='123'/>
+<input type='hidden' name='product[${data.products[itemList.index].gcid}[offerID]' type='text' value='1'/> 
+<input type='hidden' name='product[${data.products[itemList.index].gcid}][subscriptionStartDate]' type='text' value='2016-04-04'/>
+<input type='hidden' name='product[${data.products[itemList.index].gcid}][subscriptionEndDate]' type='text' value='2017-04-04'/>
+<input type='hidden' name='product[${data.products[itemList.index].gcid}][parentProduct]' type='text' value=''/>
+</div>
     <div class="column-20 checkoutContent">
         <div class="column-13 productContent">
             <h3 class="cartText font-size-6"></h3>
         </div>
         <div class="column-7 productContent">
             <p style="text-align: right;">
-                <button class="btn details btn-fill" style="width: 65%;">Proceed to Checkout</button>
+                <button type="submit" class="btn details btn-fill" style="width: 65%;">Proceed to Checkout</button>
             </p>
             <p style="text-align: right; margin-right: 60px;">
                 <a href="${data.storefrontPath}.html" class="link-blue">Continue Shopping</a>

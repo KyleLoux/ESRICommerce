@@ -7,20 +7,19 @@
 <div data-sly-use.access="${'esri.commerce.esri.core.services.AccessToken'}"></div>
 
 <iframe name="hiddenFrame" width="0" height="0" border="0" style="display: none;"></iframe>
-
-
 <form target="hiddenFrame" id="addToCart" class="we-Product-form" action="${ data.product.addToCartUrl }" method="POST"> 
 	
 	<input type="hidden" name="redirect" value="${data.product.redirect}.html"/>
 	<!-- <p class="font-size--1" style="margin-top: 25px;">License Type &nbsp;&nbsp;<a class="js-modal-toggle font-size--2 link-blue" href="#" data-modal="foo">Help me choose</a></p> -->
+	<p class="font-size--1" style="margin-top: 25px;">License Type &nbsp;&nbsp;<a class="js-modal-toggle font-size--2 link-blue" href="#" data-modal="chooseLicense">Help me choose</a></p>
 	<div data-sly-list="${data.product.children}">
 		<p data-sly-test="${item.first}" class="font-size-1 licenseTypes">
-	        <div data-sly-use.getPrice="${'esri.commerce.esri.core.services.GetPrice' @ locale=data.locale, token=access.token, secret=access.secret, sku=item.sku}"></div>
-	        <input id="license${itemList.index}" type="radio" name="licenseType" value="${item.productPath}" checked>
+	        <div data-sly-use.getPrice="${'esri.commerce.esri.core.services.GetPrice' @ locale=data.locale, token=access.token, secret=access.secret, gcid=item.gcid}"></div>
+	        <input id="license${itemList.index}" type="radio" name="product-path" value="${item.productPath}" checked>
 	        <label for="license${itemList.index}" class="license1 label1 font-size--1 selected">${item.title} <br /><br />$${getPrice.product.esriListUnitPrice}</label>
 	    </p>
 		<p data-sly-test="${!item.first}" class="font-size-1 licenseTypes">
-	        <div data-sly-use.getPrice="${'esri.commerce.esri.core.services.GetPrice' @ locale=data.locale, token=access.token, secret=access.secret, sku=item.sku}"></div>
+	        <div data-sly-use.getPrice="${'esri.commerce.esri.core.services.GetPrice' @ locale=data.locale, token=access.token, secret=access.secret, gcid=item.gcid}"></div>
 	        <input id="license${itemList.index}" type="radio" name="product-path" value="${item.productPath}">
 	        <label for="license${itemList.index}" class="license2 label2 font-size--1">${item.title} <br /><br />$${getPrice.product.esriListUnitPrice}</label>
 	    </p>	    
@@ -36,6 +35,25 @@
 		</span>
     </div>
 </form>
+
+<!-- MODAL FOR EXPLANATION OF LICENSES -->
+    <div class="js-modal modal-overlay " data-modal="chooseLicense">
+        <div class="modal-content column-12" aria-labelledby="modal" role="dialog">
+
+            <a class="js-modal-toggle right link-blue" href="#" aria-label="close-modal">
+                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 32 32" class="svg-icon"><path d="M18.404 16l9.9 9.9-2.404 2.404-9.9-9.9-9.9 9.9L3.696 25.9l9.9-9.9-9.9-9.898L6.1 3.698l9.9 9.899 9.9-9.9 2.404 2.406-9.9 9.898z"/></svg>
+            </a>
+
+            <h3 class="trailer-half font-size-2">License Types</h3>
+            ${data.licenseDescription @ context='html'}
+
+            <div class="text-right">
+                <button class="btn js-modal-toggle">okay</button>
+            </div>
+        </div>
+    </div>
+<!-- END CODE FOR LICENSE EXPLANATION MODAL -->
+
 <div class="js-modal modal-overlay " data-modal="foo">
     <div class="modal-content column-12" aria-labelledby="modal" role="dialog">
 
@@ -148,8 +166,11 @@
 
 </script>
 <script>
-    $("#myButton").on("click", function() {
-            $('.subtotal').slideDown(500).delay(10000).slideUp(500); 
-            $('.subtotal-text').text(5 Item(s) Added to Cart)           
+    $("#myButton").on("click", function() {            
+            var quantity = $('#quantity').val()
+            var text = $('.subtotal-text').text()
+            console.log(text)
+            $('.subtotal-text').text(quantity + " Item(s) Added to Cart");
+            $('.subtotal').slideDown(500).delay(10000).slideUp(500);                        
     });
 </script>

@@ -26,9 +26,9 @@
                         <items jcr:primaryType="nt:unstructured">
 	                        <errorMessage
 							    jcr:primaryType="nt:unstructured"
-							    sling:resourceType="granite/ui/components/foundation/form/textarea"
-							    fieldLabel="Error Message"
-							    name="./errorMessage"/>							    
+							    sling:resourceType="cq/gui/components/authoring/dialog/richtext"
+							    fieldLabel="License Description"							    
+							    name="./licenseDescription"/>							    
                         </items>
                     </column>
                 </items>

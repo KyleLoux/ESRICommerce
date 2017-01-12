@@ -13,7 +13,10 @@ use(["commerce_init.js"], function (commerceInit) {
     var baseProductImagePath;
     var requiredTags = granite.resource.properties["requiredTags"];
     var skus = "";
+    var gcids = "";
     var quantities = "";
+    var startDates = "";
+    var endDates = "";
     var skuFlag = false;
     var kyle = "test";
     var products = [];
@@ -27,6 +30,7 @@ use(["commerce_init.js"], function (commerceInit) {
     	var currentProduct = productsInCart.get(i).getProduct();
     	var quantity = productsInCart.get(i).getQuantity();
     	var sku = currentProduct.getProperty("sku", java.lang.String);
+    	var gcid = currentProduct.getProperty("gcid", java.lang.String);
     	var tags = currentProduct.getProperty("cq:tagsVariants", java.lang.String);
     	var startDate = currentProduct.getProperty("effectiveDate", java.lang.String);
     	var endDate = currentProduct.getProperty("endDate", java.lang.String);
@@ -39,9 +43,12 @@ use(["commerce_init.js"], function (commerceInit) {
     	}
     	products.push({
     		sku: sku,
+    		gcid: gcid,
     		license: license,
-    		startDate: startDate != null? new Date(startDate).toDateString(): "",
-    		endDate: endDate != null? new Date(endDate).toDateString(): "",
+    		startDate: startDate,
+    		endDate: endDate,
+    		startDateText: startDate != null? new Date(startDate).toDateString(): "",
+    		endDateText: endDate != null? new Date(endDate).toDateString(): "",    				
     		image: image != null? image.adaptTo(org.apache.sling.api.resource.ValueMap).get("fileReference", java.lang.String) : ""
     				
     	})
@@ -50,13 +57,30 @@ use(["commerce_init.js"], function (commerceInit) {
     		skuFlag = true
     	} else{
     		skus += ",";
-    		quantities += ','
+    		gcids += ",";
+    		quantities += ',';
+    		startDates += ',';
+    		endDates += ',';
     			
     	}
     	skus += sku;
+    	gcids += gcid;
     	quantities += quantity;
+    	startDates += startDate;
+    	endDates += endDate;
     }
     
+    var distributor = "2000";
+    var country = "CA";
+    var currency = "CAD";
+    var formLocale = "en_CA"
+    var locale = currentPage.getAbsoluteParent(2).getPath().replace("/content/esri/","").replace("/content/esricommerce/","")
+	if(locale == 'en'){
+     	distributor = "456795";
+     	country = "US";
+     	currency = "USD";
+     	formLocale = "en_US"
+    } 
     
     var cart = {
     		count: count,
@@ -66,9 +90,16 @@ use(["commerce_init.js"], function (commerceInit) {
     return {
     	cart: cart,
     	skus: skus,
+    	gcids: gcids,
     	quantities: quantities,
+    	endDates: endDates,
+    	startDates: startDates,
     	products: products,
-    	locale : currentPage.getAbsoluteParent(2).getPath().replace("/content/esri/","").replace("/content/esricommerce/",""),
+    	locale : locale,
+    	distributor : distributor,
+    	country: country,
+    	currency: currency,
+    	formLocale: formLocale,
     	storefrontPath: pageProperties.get("storefrontPath", java.lang.String)
     };
 

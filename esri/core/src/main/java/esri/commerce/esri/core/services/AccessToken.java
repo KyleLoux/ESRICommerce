@@ -51,7 +51,7 @@ public class AccessToken extends WCMUse{
         			  .asJson();
         	 json = response.getBody().getObject();
         	         	 
-        	 logger.error("!!!! Response " + json.toString());
+        	 //logger.error("!!!! Response " + json.toString());
         	 
         	 HttpResponse<JsonNode> response2 = Unirest.post("https://esridev.directtrack.com/admin/api/authorize")
         			  .header("content-type", "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW")
@@ -72,7 +72,7 @@ public class AccessToken extends WCMUse{
         			  .body("------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_user\"\r\n\r\nZXNyaWRldjo3MTg3IXJta0FNVjFqaw==\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_verifier\"\r\n\r\n" + json2.getString("oauth_verifier") + "\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_consumer_key\"\r\n\r\n" + consumerKey + "\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_token\"\r\n\r\n" + json.getString("oauth_token") + "\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_signature_method\"\r\n\r\nPLAINTEXT\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_timestamp\"\r\n\r\n" + timestamp.getTime() + "\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_nonce\"\r\n\r\niUyC0J\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_version\"\r\n\r\n1.0\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_signature\"\r\n\r\n" + consumerSecret + "&" + json.getString("oauth_token_secret") + "\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--")
         			  .asJson();
         	 json3 = response3.getBody().getObject();
-        	 logger.error("!!! Response 3 " + json3.toString());
+        	 //logger.error("!!! Response 3 " + json3.toString());
         	 //logger.error("!!! Zone " + get("Zone", String.class));
         	 //logger.error("!!! Currency " + get("currency", String.class));
          }

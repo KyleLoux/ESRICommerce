@@ -137,6 +137,7 @@ use(["commerce_init.js"], function (commerceInit) {
     return {
     	product: product,
     	kyle: kyle,
+    	locale: currentPage.getAbsoluteParent(2).getPath().replace("/content/esri/",""),
     	extensions: extensions
     };
 
@@ -155,6 +156,7 @@ use(["commerce_init.js"], function (commerceInit) {
         var childProductResource = resolver.resolve(product.getPath());
         var childrenIterator = childProductResource.getResourceResolver().listChildren(childProductResource);
         var childPaths = [];
+        var childGcids = [];
         var i = 0;
         
         while(childrenIterator.hasNext()){
@@ -166,8 +168,10 @@ use(["commerce_init.js"], function (commerceInit) {
         		kyle = kyle + tags[tags.length - 1]
         		if(tags[tags.length - 1] == "perpetual"){
         			childPaths[0] = childProduct.getPath()
+        			childGcids[0] = childProduct.getProperty("gcid", java.lang.String)
         		} else if (tags[tags.length - 1] == "term"){
         			childPaths[1] = childProduct.getPath()
+        			childGcids[1] = childProduct.getProperty("gcid", java.lang.String)
         		}
         	}
         }
@@ -176,9 +180,11 @@ use(["commerce_init.js"], function (commerceInit) {
         return {
             title: product.getTitle(),
             summaryDescription: product.getProperty('summaryDescription', java.lang.String),  
-            sku: product.getProperty('sku', java.lang.String),
+            gcid: product.getProperty('gcid', java.lang.String),
             productPath: product.getPath(),
             kyle: kyle,
+            gcid1: childGcids[0],
+            gcid2: childGcids[1],
             childPaths: childPaths,
             image: productImage != null ?
                     productImage.adaptTo(org.apache.sling.api.resource.ValueMap).get("fileReference", java.lang.String) : "",

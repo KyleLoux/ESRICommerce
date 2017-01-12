@@ -19,7 +19,7 @@
 	                    <p class="font-size--1 card-category">${item.product1.labelCaption}</p>
 	                    <div class="card-content">
 	                        <h4><a href="${item.product1.pagePath}.html">${item.product1.title}</a></h4>
-	                        <p class="font-size-1 card-last">${item.product1.summaryDescription}</p>
+	                        <p class="font-size-1 card-last">${item.product1.summaryDescription @ context='html'}</p>
 	                    </div>
 	                </div>
 	                <div class="card block" data-sly-test="${item.product2}">
@@ -29,7 +29,7 @@
 	                    <p class="font-size--1 card-category">${item.product2.labelCaption}</p>
 	                    <div class="card-content">
 	                        <h4><a href="${item.product2.pagePath}">${item.product2.title}</a></h4>
-	                        <p class="font-size-1 card-last">${item.product2.summaryDescription}</p>
+	                        <p class="font-size-1 card-last">${item.product2.summaryDescription @ context='html'}</p>
 	                    </div>
 	                </div>
 	            </div>

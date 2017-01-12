@@ -31,7 +31,10 @@ import com.adobe.cq.sightly.WCMUse;
 public class GetPrice extends WCMUse{
      private final Logger logger = LoggerFactory.getLogger(getClass());
      private Product product = null;
-     private float totalPrice = 0;
+     public String price = "";
+     
+     private final String consumerKey = "c73d0e48868865a5c10de2672572175c05873f0fb";
+     private final String consumerSecret = "b25ca848cd700a375987434cc4ef551a";
           
      @Override
      public void activate() throws Exception {
@@ -41,8 +44,14 @@ public class GetPrice extends WCMUse{
         	 String locale = get("locale", String.class);
         	 String token = get("token", String.class);
         	 String secret = get("secret", String.class);
-        	 String sku = get("sku", String.class);
+        	 String gcid = get("gcid", String.class);
         	 String quantity = get("quantity", String.class);
+        	 String startDate = get("startDate", String.class);
+        	 startDate = startDate != null? startDate.split("T")[0] : "";
+        	 String endDate = get("endDate", String.class);
+        	 endDate = endDate != null? endDate.split("T")[0] : "";
+        	 
+        	 logger.error("start/end dates " + startDate + "    " + endDate);
         	 String zone = "";
         	 String currency = "";
         	 String distributor = "";
@@ -62,26 +71,31 @@ public class GetPrice extends WCMUse{
 	         }        	
         	 
     		 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        	 if (sku != null) {
-	        	 HttpResponse<JsonNode> response = Unirest.post("https://esridev.directtrack.com/admin/pricelist/format/json?oauth_consumer_key=c73d0e48868865a5c10de2672572175c05873f0fb&oauth_token=" + token + "&oauth_signature_method=PLAINTEXT&oauth_timestamp=" + timestamp.getTime() + "&oauth_nonce=7D4izT&oauth_version=1.0&oauth_signature=b25ca848cd700a375987434cc4ef551a%26" + secret + "")
+        	 if (gcid != null) {
+	        	 HttpResponse<JsonNode> response = Unirest.post("https://esridev.directtrack.com/admin/pricelist/format/json?oauth_consumer_key=" + consumerKey + "&oauth_token=" + token + "&oauth_signature_method=PLAINTEXT&oauth_timestamp=" + timestamp.getTime() + "&oauth_nonce=7D4izT&oauth_version=1.0&oauth_signature=" + consumerSecret + "%2526" + secret + "")
 	        			  .header("oauth_user", "esridev:7187!rmkAMV1jk")
 	        			  .header("content-type", "application/json")
 	        			  .header("cache-control", "no-cache")
 	        			  .header("postman-token", "b9dd1098-4759-61f6-c733-90ed4c22d461")
-	        			  .body("{  \"verbosity\":3,\"request_header\":{  \"zone\":\"" + zone + "\",\"product_pricelist_currency_code\":\"" + currency + "\",\"distributorNumber\":\"" + distributor + "\"},\"request_lineitems\":[  {  \"product\":\"arcGIS_" + sku + "\",\"qty\":\"1\"}]}")
+	        			  .body("{\n\t\"verbosity\": 3,\n\t\"request_header\": {\n\t\t\"zone\": \"" + zone + "\",\n\t\t\"product_pricelist_currency_code\": \"" + currency + "\",\n\t\t\"distributorNumber\": \"" + distributor + "\"\n\t},\n\t\"request_lineitems\": {\n\t\t\"request_lineitem\": {\n\t\t\t\"product\": \"gcID|" + gcid + "\",\n\t\t\t\"startDate\": \"" + startDate +  " 12:12:12\",\n\t\t\t\"endDate\": \"" + endDate + " 12:12:12\",\n\t\t\t\"qty\": \"1\"\n\t\t}\n\t}\n}\n")
 	        			  .asJson();
 	        	 
 	        	 json = response.getBody().getObject();
-	        	 logger.error("response is " + json.toString());
+	        	 logger.error("!!!!!!!!!!!");
+	        	 logger.error("response to get price with gcid " + gcid + " is " + json.toString());
+	        	 logger.error("!!!!!!!!!!!");
 	        	 if(json.getJSONObject("pricing").has("lineitems")){
 	        		 JSONArray array = json.getJSONObject("pricing").getJSONArray("lineitems");
 		        	 for(int i = 0; i < array.length(); i++){
 		        		 Product newProduct = new Product(array.getJSONObject(i));
 		        		 //newProduct.setStoreListUnitPrice(json.getJSONObject("pricing").getJSONArray("lineitems").getJSONObject(0).getString("storeListUnitPrice"));
 		        		 product = newProduct;
+		        		 price = product.getEsriListUnitPrice();
+		        		 //logger.error("price is " + product.getEsriListUnitPrice());
 		        	 }
+	        		 
 	        	 } else{
-	        		 logger.error("ERROR: Sku " + sku + "is not available");
+	        		 logger.error("ERROR: GCID " + gcid + "is not available");
 	        	 }
         	 }
          }
@@ -102,12 +116,13 @@ public class GetPrice extends WCMUse{
 		this.product = product;
 	}
 
-	public float getTotalPrice() {
-		return totalPrice;
+	public String getPrice() {
+		logger.error("got here");
+		return price;
 	}
 
-	public void setTotalPrice(float totalPrice) {
-		this.totalPrice = totalPrice;
+	public void setPrice(String price) {
+		this.price = price;
 	}
 
        

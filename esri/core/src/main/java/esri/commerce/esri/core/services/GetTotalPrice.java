@@ -16,6 +16,9 @@ public class GetTotalPrice extends WCMUse{
      private final Logger logger = LoggerFactory.getLogger(getClass());
      private float totalPrice = 0;
           
+     private final String consumerKey = "c73d0e48868865a5c10de2672572175c05873f0fb";
+     private final String consumerSecret = "b25ca848cd700a375987434cc4ef551a";       
+     
      @Override
      public void activate() throws Exception {
          try
@@ -24,7 +27,7 @@ public class GetTotalPrice extends WCMUse{
         	 String locale = get("locale", String.class);
         	 String token = get("token", String.class);
         	 String secret = get("secret", String.class);
-        	 String skus = get("skus", String.class);
+        	 String gcids = get("gcids", String.class);
         	 String quantities = get("quantities", String.class);
         	 String zone = "";
         	 String currency = "";
@@ -44,17 +47,17 @@ public class GetTotalPrice extends WCMUse{
 	         	distributor = "2000";
 	         }        	
         	 
-    		 String[] skuList = skus.split(",");
+    		 String[] gcidList = gcids.split(",");
     		 String[] quantityList = quantities.split(",");
-    		 for(int i = 0; i < skuList.length; i++) {
+    		 for(int i = 0; i < gcidList.length; i++) {
     			 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         		 logger.error("a quantity appears " + quantityList[i]);
-    			 HttpResponse<JsonNode> response = Unirest.post("https://esridev.directtrack.com/admin/pricelist/format/json?oauth_consumer_key=451b700786aa144c68a5a7fe7ca34f1e0568c0e82&oauth_token=" + token + "&oauth_signature_method=PLAINTEXT&oauth_timestamp=" + timestamp.getTime() + "&oauth_nonce=7D4izT&oauth_version=1.0&oauth_signature=cbb5ac1de395baafd7457931a4088415%26" + secret + "")
+    			 HttpResponse<JsonNode> response = Unirest.post("https://esridev.directtrack.com/admin/pricelist/format/json?oauth_consumer_key=" + consumerKey + "&oauth_token=" + token + "&oauth_signature_method=PLAINTEXT&oauth_timestamp=" + timestamp.getTime() + "&oauth_nonce=7D4izT&oauth_version=1.0&oauth_signature=" + consumerSecret + "%26" + secret + "")
         			  .header("oauth_user", "esridev:7187!rmkAMV1jk")
         			  .header("content-type", "application/json")
         			  .header("cache-control", "no-cache")
         			  .header("postman-token", "b9dd1098-4759-61f6-c733-90ed4c22d461")
-        			  .body("{  \"verbosity\":3,\"request_header\":{  \"zone\":\"" + zone + "\",\"product_pricelist_currency_code\":\"" + currency + "\",\"distributorNumber\":\"" + distributor + "\"},\"request_lineitems\":[  {  \"product\":\"arcGIS_" + skuList[i] + "\",\"qty\":\"1\"}]}")
+        			  .body("{  \"verbosity\":3,\"request_header\":{  \"zone\":\"" + zone + "\",\"product_pricelist_currency_code\":\"" + currency + "\",\"distributorNumber\":\"" + distributor + "\"},\"request_lineitems\":[  {  \"product\":\"arcGIS_" + gcidList[i] + "\",\"qty\":\"1\"}]}")
         			  .asJson();
         	 
    	        	 json = response.getBody().getObject();
@@ -64,7 +67,7 @@ public class GetTotalPrice extends WCMUse{
 	    	        	 setTotalPrice(totalPrice + (Float.parseFloat(quantityList[i]) * Float.parseFloat(array.getJSONObject(0).getString("esriListUnitPrice"))));
 	        		 }
 	        	 } else{
-	        		 logger.error("ERROR: Sku " + skuList[i] + " was not found.");
+	        		 logger.error("ERROR: GCID " + gcidList[i] + " was not found.");
 	        	 }
     		 }        
          }
