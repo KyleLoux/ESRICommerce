@@ -23,19 +23,21 @@ use(["commerce_init.js"], function (commerceInit) {
     var commerceSession = commerceService.login(request, response);
     var productPath = currentPage.getProperties().get("cq:productMaster", java.lang.String);
     var baseProduct = commerceService.getProduct(productPath);
-        
-    var image = baseProduct.getImage();
-    if (image) {
-        var productImage = resolver.getResource(image.getPath());
-        var vm = productImage.adaptTo(org.apache.sling.api.resource.ValueMap);
-        var imagePath = vm.get("fileReference");
-    }
+     
+    if(baseProduct != null){
+	    var image = baseProduct.getImage();
+	    if (image) {
+	        var productImage = resolver.getResource(image.getPath());
+	        var vm = productImage.adaptTo(org.apache.sling.api.resource.ValueMap);
+	        var imagePath = vm.get("fileReference");
+	    }
 
-    return {
-        title: baseProduct.getTitle(),
-        image: imagePath,
-        bannerText: properties.get("bannerText", java.lang.String),
-        bannerCTA: properties.get("bannerCTA", java.lang.String),
-        bannerLink: properties.get("bannerLink", java.lang.String)
-    };
+	    return {
+	        title: baseProduct.getTitle(),
+	        image: imagePath,
+	        bannerText: properties.get("bannerText", java.lang.String),
+	        bannerCTA: properties.get("bannerCTA", java.lang.String),
+	        bannerLink: properties.get("bannerLink", java.lang.String)
+	    };
+    }
 });

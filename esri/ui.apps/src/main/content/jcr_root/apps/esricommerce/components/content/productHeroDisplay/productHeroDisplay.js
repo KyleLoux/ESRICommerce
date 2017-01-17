@@ -28,24 +28,26 @@ use(function () {
         var baseProduct = commerceService.getProduct(featuredProduct);
         var featuredProduct = commerceService.getProduct(featuredProductPath);
         
-        var image = featuredProduct.getImage();
-        var productImage = null;
-        if (image) {
-            productImage = resolver.getResource(image.getPath());
+        if(featuredProduct != null){
+	        var image = featuredProduct.getImage();
+		        var productImage = null;
+		        if (image) {
+		            productImage = resolver.getResource(image.getPath());
+		        }
+	        
+	        sqlStatement = "SELECT * FROM [cq:PageContent] WHERE CONTAINS('cq:productMaster','" + featuredProductPath + "')"
+			results = resolver.findResources(sqlStatement, "JCR-SQL2");
+	    	while(results.hasNext()) {
+	    		var result = results.next();
+	    	}
+	        
+	        return {
+	        	title: featuredProduct.getTitle(),
+	        	description: featuredProduct.getProperty('summaryDescription', java.lang.String),
+	        	caption: featuredProduct.getProperty('labelCaption', java.lang.String),
+	        	image: featuredProduct.getProperty('largeImage', java.lang.String),
+	        	pagePath: result.getParent().getPath()
+	        };
         }
-        
-        sqlStatement = "SELECT * FROM [cq:PageContent] WHERE CONTAINS('cq:productMaster','" + featuredProductPath + "')"
-		results = resolver.findResources(sqlStatement, "JCR-SQL2");
-    	while(results.hasNext()) {
-    		var result = results.next();
-    	}
-        
-        return {
-        	title: featuredProduct.getTitle(),
-        	description: featuredProduct.getProperty('summaryDescription', java.lang.String),
-        	caption: featuredProduct.getProperty('labelCaption', java.lang.String),
-        	image: featuredProduct.getProperty('largeImage', java.lang.String),
-        	pagePath: result.getParent().getPath()
-        };
 
 });

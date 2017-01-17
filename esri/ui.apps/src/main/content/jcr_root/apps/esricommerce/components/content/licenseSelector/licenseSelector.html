@@ -31,7 +31,7 @@
         </p>
         <hr class="addtoCart">
         <button id="myButton" type="submit" class="btn details btn-fill" disabled>Add to Cart</button>
-        <span class="font-size-1 text-off-black icon-ui-description alert is-active" style="margin-top: 10px; text-align:center;">This purchase qualifies for a multiple quantity discount. Please contact us at 800-447-9778 for a quotation.
+        <span class="font-size-1 text-off-black icon-ui-description alert is-active" style="display: none; margin-top: 10px; text-align:center;">This purchase qualifies for a multiple quantity discount. Please contact us at 800-447-9778 for a quotation.
 		</span>
     </div>
 </form>
@@ -142,10 +142,11 @@
       $('#quantity').change(function () {
           if ($('#quantity').val() >= 2 && ($('#license0').is(':checked'))) {
               $('#myButton').hide();
-              $("span.alert").show();
+              $("span.alert").show();              
           }
           else if
               ($('#quantity').val() == 1 && ($('#license0').is(':checked'))) {
+              $('#myButton').removeAttr("disabled");
               $('#myButton').show();
               $('span.alert').hide();
           }
@@ -158,9 +159,17 @@
 
           }
       });
-      $("label.license1").on("click", function() {
+      $("label.license2").on("click", function() {
               $('#myButton').show();
               $('span.alert').hide();
+
+      });
+      $("label.license1").on("click", function() {
+      console.log("start")
+          if ($('#quantity').val() >= 2) {
+              $('#myButton').hide();
+              $("span.alert").show();
+          }
 
       });
 

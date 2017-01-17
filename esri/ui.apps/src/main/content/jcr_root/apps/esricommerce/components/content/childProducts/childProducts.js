@@ -139,7 +139,9 @@ use(["commerce_init.js"], function (commerceInit) {
     }
 
     product.children = children;
-    product.title = baseProductProperties.title
+    if(baseProductProperties){
+    	product.title = baseProductProperties.title
+    }
     
 
     return {

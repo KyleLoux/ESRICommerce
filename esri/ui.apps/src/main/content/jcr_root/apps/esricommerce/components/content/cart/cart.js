@@ -11,7 +11,7 @@ use(["commerce_init.js"], function (commerceInit) {
     var redirect, errorRedirect, addToCartUrl;
     var variants = [];
     var baseProductImagePath;
-    var requiredTags = granite.resource.properties["requiredTags"];
+    var errorMessage = granite.resource.properties["errorMessage"];
     var skus = "";
     var gcids = "";
     var quantities = "";
@@ -34,7 +34,9 @@ use(["commerce_init.js"], function (commerceInit) {
     	var tags = currentProduct.getProperty("cq:tagsVariants", java.lang.String);
     	var startDate = currentProduct.getProperty("effectiveDate", java.lang.String);
     	var endDate = currentProduct.getProperty("endDate", java.lang.String);
-    	var image = resolver.getResource(currentProduct.getImage().getPath());
+    	if(currentProduct.getImage()){
+    		var image = resolver.getResource(currentProduct.getImage().getPath());
+    	}
     	
     	if(tags != null && tags.contains("perpetual")){
     		license = "Perpetual"
@@ -43,6 +45,7 @@ use(["commerce_init.js"], function (commerceInit) {
     	}
     	products.push({
     		sku: sku,
+    		quantity: quantity,
     		gcid: gcid,
     		license: license,
     		startDate: startDate,
@@ -100,7 +103,8 @@ use(["commerce_init.js"], function (commerceInit) {
     	country: country,
     	currency: currency,
     	formLocale: formLocale,
-    	storefrontPath: pageProperties.get("storefrontPath", java.lang.String)
+    	storefrontPath: pageProperties.get("storefrontPath", java.lang.String),
+    	errorMessage: errorMessage
     };
 
 

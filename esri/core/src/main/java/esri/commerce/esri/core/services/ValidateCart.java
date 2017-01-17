@@ -35,20 +35,24 @@ public class ValidateCart extends WCMUse{
      private boolean cartIsValid = true;
      private final String clientID = "Q5Xqcht8SN4XlG5f";
      private final String clientSecret = "6b71f8bce53341e69aa8e3dec1a1da62";
-
+     private String needsNewEndDate = "";
+     private String newEndDate = "";
+     private String invalidSku = "";
+     private String ValidateCartOauth2 = "";
+     private String ValidateCartEndpoint = "";
      
      @Override
      public void activate() throws Exception {
          try
          {
         	 
+        	 OSGIConfig osgi = getSlingScriptHelper().getService(OSGIConfig.class);
+        	 ValidateCartOauth2 = osgi.getValidateCartOauth2();
+        	 ValidateCartEndpoint = osgi.getValidateCartEndpoint();
+        	 
         	 String[] skus = get("skus", String.class).split(",");
         	 String[] quantities = get("quantities", String.class).split(",");
         	 String[] endDates = get("endDates", String.class).split(",");
-        	 
-        	 /*logger.error("Skus are " + skus[0]);
-        	 logger.error("Quantities are " + quantities[0]);
-        	 logger.error("EndDates are " + endDates[0]);*/
         	 
         	 JSONObject json = new JSONObject();
         	 JSONObject bodyJson = new JSONObject();
@@ -64,11 +68,10 @@ public class ValidateCart extends WCMUse{
         		 jsonArray.put(i, product);
         	 }
         	 bodyJson.put("cartContent", jsonArray);
-        	 logger.error("body json is " + bodyJson.toString());
 
         	 
     		 //Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        		 HttpResponse<JsonNode> response = Unirest.post("https://www.arcgis.com/sharing/rest/oauth2/token/")
+        		 HttpResponse<JsonNode> response = Unirest.post(ValidateCartOauth2)
         				  .header("content-type", "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW")
         				  .header("authorization", "b45a3ced2854488692c08a02372868180586c0007")
         				  .header("cache-control", "no-cache")
@@ -76,14 +79,10 @@ public class ValidateCart extends WCMUse{
         				  .body("------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"client_id\"\r\n\r\n" + clientID + "\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"client_secret\"\r\n\r\n" + clientSecret + "\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"grant_type\"\r\n\r\nclient_credentials\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--")
         				  .asJson();
 	        	 
-	        	 json = response.getBody().getObject();
-	        	 //logger.error("!!!!!!!!!!!");
-	        	 //logger.error("response to get price " + json.toString());
-	        	 //logger.error("!!!!!!!!!!!");	        	 
+	        	 json = response.getBody().getObject(); 	 
 	        	 token = json.getString("access_token");
-	        	 //logger.error("token is  " + token);
 	        	 
-	        	 HttpResponse<JsonNode> response2 = Unirest.post("https://7n3htow3ue.execute-api.us-west-2.amazonaws.com/staging/EntitlementService/validate-cart")
+	        	 HttpResponse<JsonNode> response2 = Unirest.post(ValidateCartEndpoint)
 	        			  .header("authorization", "" + token)
 	        			  .header("content-type", "application/json")
 	        			  .header("cache-control", "no-cache")
@@ -91,12 +90,23 @@ public class ValidateCart extends WCMUse{
 	        			  .body(bodyJson.toString())
 	        			  .asJson();
 	        	 JSONArray array = response2.getBody().getArray();
-	        	 //logger.error("response 2 " + array.toString());
 	        	 for(int i = 0; i < array.length(); i++){
 	        		 JSONObject obj = array.getJSONObject(i);
-	        		 logger.error("status code is " + obj.get("statusCode").toString());
+	        		 if(obj.has("extendedData")){
+	        			 JSONArray arr = obj.getJSONArray("extendedData");
+	        			 if(arr.length() > 0){
+		        			 JSONObject extendedData = arr.getJSONObject(0);
+		        			 if(extendedData.has("sku") && extendedData.has("endDate")){
+		        				 setNeedsNewEndDate(obj.getString("sku"));
+		        				 setNewEndDate(extendedData.getString("endDate"));
+		        			 }
+	        			 }
+	        		 }
+	        		 
+	        		 
 	        		 if (obj.get("statusCode").equals(2)){
 	        			 cartIsValid = false;
+	        			 setInvalidSku(obj.getString("sku"));
 	        		 }
 	        	 }
 	        	 
@@ -128,6 +138,36 @@ public class ValidateCart extends WCMUse{
 
 	public void setCartIsValid(boolean cartIsValid) {
 		this.cartIsValid = cartIsValid;
+	}
+
+
+	public String getNewEndDate() {
+		return newEndDate;
+	}
+
+
+	public void setNewEndDate(String newEndDate) {
+		this.newEndDate = newEndDate;
+	}
+
+
+	public String getNeedsNewEndDate() {
+		return needsNewEndDate;
+	}
+
+
+	public void setNeedsNewEndDate(String needsNewEndDate) {
+		this.needsNewEndDate = needsNewEndDate;
+	}
+
+
+	public String getInvalidSku() {
+		return invalidSku;
+	}
+
+
+	public void setInvalidSku(String invalidSku) {
+		this.invalidSku = invalidSku;
 	}
 
        

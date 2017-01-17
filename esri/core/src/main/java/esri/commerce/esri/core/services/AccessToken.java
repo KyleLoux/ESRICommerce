@@ -30,6 +30,10 @@ public class AccessToken extends WCMUse{
      private String token = "";
      private String secret = "";
      
+     private String requestTokenAPI;
+     private String authorizeTokenAPI;
+     private String accessTokenAPI;
+     
      private final String consumerKey = "c73d0e48868865a5c10de2672572175c05873f0fb";
      private final String consumerSecret = "b25ca848cd700a375987434cc4ef551a";
 
@@ -39,11 +43,16 @@ public class AccessToken extends WCMUse{
     	 JSONObject json = new JSONObject();
     	 JSONObject json2 = new JSONObject();
     	 JSONObject json3 = new JSONObject();
+    	 
+    	 OSGIConfig osgi = getSlingScriptHelper().getService(OSGIConfig.class);
+    	 requestTokenAPI = osgi.getRequestTokenEndpoint();
+    	 authorizeTokenAPI = osgi.getAuthorizeTokenEndpoint();
+    	 accessTokenAPI = osgi.getAcessTokenEndpoint();
+    	 
          try
          {
         	 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        	 //logger.error("!!!! Timestamp is " + timestamp.getTime());
-        	 HttpResponse<JsonNode> response = Unirest.post("https://esridev.directtrack.com/admin/api/request_token")
+        	 HttpResponse<JsonNode> response = Unirest.post(requestTokenAPI)
         			  .header("content-type", "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW")
         			  .header("cache-control", "no-cache")
         			  .header("postman-token", "6b592337-941b-f55d-93a8-83eaad6e0271")
@@ -51,9 +60,8 @@ public class AccessToken extends WCMUse{
         			  .asJson();
         	 json = response.getBody().getObject();
         	         	 
-        	 //logger.error("!!!! Response " + json.toString());
         	 
-        	 HttpResponse<JsonNode> response2 = Unirest.post("https://esridev.directtrack.com/admin/api/authorize")
+        	 HttpResponse<JsonNode> response2 = Unirest.post(authorizeTokenAPI)
         			  .header("content-type", "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW")
         			  .header("oauth_user", "esridev:7187!rmkAMV1jk")
         			  .header("cache-control", "no-cache")
@@ -62,9 +70,8 @@ public class AccessToken extends WCMUse{
         			  .asJson();
         	 
         	 json2 = response2.getBody().getObject();
-        	 //logger.error("!!!! Response 2 verfier" + json2.getString("oauth_verifier"));
         	 
-        	 HttpResponse<JsonNode> response3 = Unirest.post("https://esridev.directtrack.com/admin/api/access_token")
+        	 HttpResponse<JsonNode> response3 = Unirest.post(accessTokenAPI)
         			  .header("content-type", "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW")
         			  .header("oauth_user", "ZXNyaWRldjo3MTg3IXJta0FNVjFqaw==")
         			  .header("cache-control", "no-cache")
@@ -72,9 +79,6 @@ public class AccessToken extends WCMUse{
         			  .body("------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_user\"\r\n\r\nZXNyaWRldjo3MTg3IXJta0FNVjFqaw==\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_verifier\"\r\n\r\n" + json2.getString("oauth_verifier") + "\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_consumer_key\"\r\n\r\n" + consumerKey + "\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_token\"\r\n\r\n" + json.getString("oauth_token") + "\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_signature_method\"\r\n\r\nPLAINTEXT\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_timestamp\"\r\n\r\n" + timestamp.getTime() + "\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_nonce\"\r\n\r\niUyC0J\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_version\"\r\n\r\n1.0\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_signature\"\r\n\r\n" + consumerSecret + "&" + json.getString("oauth_token_secret") + "\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--")
         			  .asJson();
         	 json3 = response3.getBody().getObject();
-        	 //logger.error("!!! Response 3 " + json3.toString());
-        	 //logger.error("!!! Zone " + get("Zone", String.class));
-        	 //logger.error("!!! Currency " + get("currency", String.class));
          }
          catch(Exception e)
          {

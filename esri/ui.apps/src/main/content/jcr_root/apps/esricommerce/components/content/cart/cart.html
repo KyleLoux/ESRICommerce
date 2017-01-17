@@ -5,9 +5,11 @@
 <sly data-sly-call="${clientLib.css @ categories='cart'}" />
 <div data-sly-call="${clientLib.all @ categories='granite.csrf.standalone'}"></div>
 <div data-sly-use.access="${'esri.commerce.esri.core.services.AccessToken'}"></div>
+<div data-sly-use.osgi="${'esri.commerce.esri.core.services.OSGIConfig'}"></div>
 <div data-sly-use.validate="${'esri.commerce.esri.core.services.ValidateCart' @ skus=data.skus, quantities=data.quantities, endDates=data.endDates}"></div>
 <div data-sly-use.getTotalPrice="${'esri.commerce.esri.core.services.GetTotalPrice' @ locale=data.locale, token=access.token, secret=access.secret, gcids=data.gcids, quantities=data.quantities}"></div>
 <!--INSERT CODE FOR CART TABLE HEADERS-->
+
 <div class="grid-container">
     <div class="column-24 mainContent">
         <div class="column-12 productContent">
@@ -22,35 +24,7 @@
     </div>
 </div>
 
-<!--MODAL CONTENT-->
-    <div class="js-modal modal-overlay " data-modal="extensionLicense">
-        <div class="modal-content column-12" aria-labelledby="modal" role="dialog">
-            <a class="js-modal-toggle right link-blue" href="#" aria-label="close-modal">
-                <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 32 32" class="svg-icon"><path d="M18.404 16l9.9 9.9-2.404 2.404-9.9-9.9-9.9 9.9L3.696 25.9l9.9-9.9-9.9-9.898L6.1 3.698l9.9 9.899 9.9-9.9 2.404 2.406-9.9 9.898z"/></svg>
-            </a>
-            <h3 class="trailer-half font-size-2"><i>Product Name</i> will be assigned to the following ArcGIS Desktop licenses</h3>
 
-<!-- LICENSE PULL-DOWN MENUS FOR MODAL - REPEAT SECTION AND OPTION ID AS NECESSARY-->
-            <p style="text-align: center;">
-                <select id="licenseType">
-                    <option value="">Choose an ArcGIS Desktop License</option>
-                    <option value="">Product Name - Expiring Date</option>
-                    <option value="">Product Name - Expiring Date</option>
-                </select>
-            </p>
-<!-- END LICENSE PULL-DOWN MENUS ^^ copy from <p> to </p> to REPEAT THE MENU BASED ON THE NUMBER OF OPTIONS -->
-            <p style="text-align: center;">
-                <button class="btn details btn-fill" style="width: 45%;">Confirm</button>
-            </p>
-            <p class="font-size--1" style="text-align: center;">Prorated terms and pricing for extensions will be reflected in the cart.</p>
-        </div>
-            <div class="text-right">
-                <button class="btn js-modal-toggle">okay</button>
-                <button class="btn-clear js-modal-toggle">cancel</button>
-            </div>
-        </div>
-    </div>
-<!-- END MODAL CONTENT -->
 
 <!-- BEGIN CART CONTENTS SECTION - REPEAT ENTIRE SECTION BELOW AS OFTEN AS NECESSARY FOR NUMBER OF PRODUCTS IN CART -->
 <div class="grid-container cartRule"></div>
@@ -72,13 +46,15 @@
             <p data-sly-test="${data.products[itemList.index].license}" class="addInfo font-size--1">License Type: ${data.products[itemList.index].license}</p>
             <p data-sly-test="${data.products[itemList.index].license == 'One-Year Subscription'}"class="addInfo font-size--1">Start Date: ${data.products[itemList.index].startDateText}</p>
             <p data-sly-test="${data.products[itemList.index].license == 'One-Year Subscription'}"class="addInfo font-size--1">End Date: ${data.products[itemList.index].endDateText}</p>
+       		<p data-sly-test="${data.errorMessage && validate.getInvalidSku == data.products[itemList.index].sku}"class="addInfo font-size--1">${data.errorMessage}</p>
         </div>
-        <div data-sly-use.getPrice="${'esri.commerce.esri.core.services.GetPrice' @ locale=data.locale, token=access.token, secret=access.secret, gcid=data.products[itemList.index].gcid, startDate=data.products[itemList.index].startDate, endDate=data.products[itemList.index].endDate}"></div>        
+        <div data-sly-test.newEndDate="${validate.getNeedsNewEndDate == data.products[itemList.index].sku}" data-sly-use.getPrice="${'esri.commerce.esri.core.services.GetPrice' @ locale=data.locale, token=access.token, secret=access.secret, gcid=data.products[itemList.index].gcid, startDate=data.products[itemList.index].startDate, endDate=validate.getNewEndDate}"></div>
+        <div data-sly-test="${!newEndDate}" data-sly-use.getPrice="${'esri.commerce.esri.core.services.GetPrice' @ locale=data.locale, token=access.token, secret=access.secret, gcid=data.products[itemList.index].gcid, startDate=data.products[itemList.index].startDate, endDate=data.products[itemList.index].endDate}"></div>        
         <div class="column-6 productContent">
             <p class="font-size-2 price" style="margin-top:5px;">$ ${getPrice.price}
 
 <!-- TOOLTIP FOR PRORATED PRICING - COMMENT AND UNCOMMENT AS NECESSARY -->
-                <a class="tooltip tooltip-multiline tooltip-right" aria-label="This is a prorated price based on a prorated subscription." ><span class="icon-ui-description icon-ui-blue"></span></a>
+                <a data-sly-test="${newEndDate}" class="tooltip tooltip-multiline tooltip-right" aria-label="This is a prorated price based on a prorated subscription." ><span class="icon-ui-description icon-ui-blue"></span></a>
 <!-- END TOOLTIP FOR PRORATED PRICING -->
 
             </p>
@@ -91,23 +67,6 @@
 <!-- END CART CONTENTS SECTION - ^^ GRAB ALL CODE ABOVE FOR REPEAT-->
 
 
-<!-- CHOOSE LICENSE TO ADD EXTENSION TO SECTION (BOX AS PER WIREFRAME CART - EXT PRORATION- STEP 1 SHOULD BE REPEATED FOR EACH PRODUCT THAT NEEDS IT FROM ABOVE (IF APPLICABLE)-->
-<div class="grid-container" style="margin-bottom:25px;" data-sly-test="${!validate.isCartIsValid}">
-    <div class="column-24 mainContent">
-        <div class="column-3 productContent">
-            <h3 class="cartText font-size-6"></h3>
-        </div>
-        <div class="column-9 extensionAdd" style="border: 2px solid #ccc; padding: 25px;">
-            <p class="addInfo font-size-2">Which ArcGIS Desktop licenses would you like to use your new extensions with?</p><br />
-            <p class="addInfo font-size--1">Each ArcGIS extension purchased needs to be assigned to an ArcGIS Desktop Core Software License that you currently own or are buying.</p>
-            <p style="margin: 0 !important;">
-
-                <a class="js-modal-toggle btn details btn-fill" style="width: 35%; margin-top: 25px;" href="" data-modal="extensionLicense">Choose Now</a>
-            </p>
-        </div>
-    </div>
-</div>
-<!-- END ADD EXTENSION TO SECTION -->
 
 <!-- DIV TO SEPARATE CART CONTENTS FROM SUBTOTAL -->
 <div class="grid-container cartRule"></div>
@@ -133,22 +92,22 @@
     </div>
 </div>
 <div class="grid-container">
-<form method="POST" action="https://ordersummary-dev.esri.com/custom/testorder/index.php">
-<input type='hidden' name='authKey' type='text' value='3df45282dd3b8859254419d0b54d4d50'/>
-<input type='hidden' name='userName' type='text' value='smch_internal'/>
-<input type='hidden' name='customerNumber' type='text' value='smch_customer'/>
-<input type='hidden' name='distributorNumber' type='text' value='${data.distributor}'/> 
-<input type='hidden' name='country' type='text' value='${data.country}'/> 
-<input type='hidden' name='currency' type='text' value='${data.currency}'/>
-<input type='hidden' name='locale' type='text' value='${data.formLocale}'/>
-<input type='hidden' name='orderType' type='text' value='manualrenewal'/> 
+<form method="POST" action="${osgi.createCartEndpoint}">
+<input type='hidden' name='authKey'  value='3df45282dd3b8859254419d0b54d4d50'/>
+<input type='hidden' name='userName'  value='smch_internal'/>
+<input type='hidden' name='customerNumber'  value='smch_customer'/>
+<input type='hidden' name='distributorNumber'  value='${data.distributor}'/> 
+<input type='hidden' name='country'  value='${data.country}'/> 
+<input type='hidden' name='currency'  value='${data.currency}'/>
+<input type='hidden' name='locale'  value='${data.formLocale}'/>
+<input type='hidden' name='orderType'  value='new'/> 
 <div data-sly-list.item="${data.cart.products}">
-<input type='hidden' name='product[${data.products[itemList.index].gcid}][qty]' type='text' value='1'/> 
-<input type='hidden' name='product[${data.products[itemList.index].gcid}][subscriptionID]' type='text' value='123'/>
-<input type='hidden' name='product[${data.products[itemList.index].gcid}[offerID]' type='text' value='1'/> 
-<input type='hidden' name='product[${data.products[itemList.index].gcid}][subscriptionStartDate]' type='text' value='2016-04-04'/>
-<input type='hidden' name='product[${data.products[itemList.index].gcid}][subscriptionEndDate]' type='text' value='2017-04-04'/>
-<input type='hidden' name='product[${data.products[itemList.index].gcid}][parentProduct]' type='text' value=''/>
+<input type='hidden' name='product[${data.products[itemList.index].gcid}][qty]'  value='${data.products[itemList.index].quantity}'/> 
+<input type='hidden' name='product[${data.products[itemList.index].gcid}][subscriptionID]'  value='123'/>
+<input type='hidden' name='product[${data.products[itemList.index].gcid}[offerID]'  value='1'/> 
+<input type='hidden' name='product[${data.products[itemList.index].gcid}][subscriptionStartDate]'  value='${data.products[itemList.index].startDate}'/>
+<input type='hidden' name='product[${data.products[itemList.index].gcid}][subscriptionEndDate]'  value='${data.products[itemList.index].endDate}'/>
+<input type='hidden' name='product[${data.products[itemList.index].gcid}][parentProduct]'  value=''/>
 </div>
     <div class="column-20 checkoutContent">
         <div class="column-13 productContent">
