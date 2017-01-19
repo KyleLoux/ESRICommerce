@@ -24,11 +24,21 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="granite/ui/components/foundation/container">
                         <items jcr:primaryType="nt:unstructured">
-	                        <errorMessage
+	                        <licenseDescription
 							    jcr:primaryType="nt:unstructured"
 							    sling:resourceType="cq/gui/components/authoring/dialog/richtext"
 							    fieldLabel="License Description"							    
-							    name="./licenseDescription"/>							    
+							    name="./licenseDescription"/>	
+	                        <licenseSelectorText
+							    jcr:primaryType="nt:unstructured"
+							    sling:resourceType="cq/gui/components/authoring/dialog/richtext"
+							    fieldLabel="License Selector Text"							    
+							    name="./licenseText"/>							    
+	                        <quantityDisclaimer
+							    jcr:primaryType="nt:unstructured"
+							    sling:resourceType="cq/gui/components/authoring/dialog/richtext"
+							    fieldLabel="Quantity Disclaimer"							    
+							    name="./quantityDisclaimer"/>							    						    
                         </items>
                     </column>
                 </items>

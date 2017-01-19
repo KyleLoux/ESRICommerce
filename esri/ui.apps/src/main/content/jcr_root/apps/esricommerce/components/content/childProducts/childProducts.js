@@ -143,9 +143,13 @@ use(["commerce_init.js"], function (commerceInit) {
     	product.title = baseProductProperties.title
     }
     
+    // Find class name
+    var className = "block-group-" + product.children.length +"-up"
+
 
     return {
-    	product: product
+    	product: product,
+    	className: className
     };
 
     function getProductProperties(product) {

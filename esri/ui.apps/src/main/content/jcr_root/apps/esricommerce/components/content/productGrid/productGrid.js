@@ -14,7 +14,7 @@ use(["commerce_init.js"], function (commerceInit) {
     var kyle = "";
     if (null != products) {
     	if (products.getClass().getName().equals("java.lang.String")) {
-    		items[0] = JSON.parse(products);
+    		items[0] = getProductProperties(products);
     	} else {
             for (i = 0; i < products.length; i=i+2) {
             	var product1 = commerceService.getProduct(products[i]);

@@ -164,7 +164,8 @@ use(["commerce_init.js"], function (commerceInit) {
         	nextChild = childrenIterator.next();
         	if(nextChild.getResourceType() == 'commerce/components/product') {
         		var childProduct = commerceService.getProduct(nextChild.getPath());
-        		var tags = childProduct.getProperty("cq:tagsVariants", java.lang.String).split('/')
+        		var tags = childProduct.getProperty("cq:tagsVariants", java.lang.String)
+        		tags = tags != null? tags.split('/'): "";
         		kyle = kyle + tags[tags.length - 1]
         		if(tags[tags.length - 1] == "perpetual"){
         			childPaths[0] = childProduct.getPath()

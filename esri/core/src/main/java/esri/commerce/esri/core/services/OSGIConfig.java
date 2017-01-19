@@ -63,6 +63,18 @@ public class OSGIConfig{
  	@Property(label="Create Cart API",value = "https://ordersummary-dev.esri.com/custom/testorder/index.php")
 	private static final String CREATE_CART_ENDPOINT = "createCart";
  	
+ 	@Property(label="Consumer Key",value = "c73d0e48868865a5c10de2672572175c05873f0fb")
+	private static final String CONSUMER_KEY = "consumerKey";
+ 	
+ 	@Property(label="Consumer Secret",value = "b25ca848cd700a375987434cc4ef551a")
+	private static final String CONSUMER_SECRET = "consumerSecret";
+ 	
+ 	@Property(label="Oauth Username",value = "esridev")
+	private static final String OAUTH_USERNAME = "oauth_username";
+ 	
+ 	@Property(label="Oauth Password",value = "7187!rmkAMV1jk")
+	private static final String OAUTH_PASSWORD = "oauth_password";
+ 	
 	public String requestTokenEndpoint;
  	public String authorizeTokenEndpoint;
  	public String accessTokenEndpoint;
@@ -70,6 +82,10 @@ public class OSGIConfig{
  	public String validateCartOauth2;
  	public String validateCartEndpoint;
  	public String createCartEndpoint;
+ 	public String consumerKey;
+ 	public String consumerSecret;
+ 	public String oauthUsername;
+ 	public String oauthPassword;
  	 
  	 
     @Activate
@@ -81,6 +97,10 @@ public class OSGIConfig{
     	this.validateCartOauth2 = PropertiesUtil.toString(properties.get(VALIDATE_CART_OAUTH2), "");
     	this.validateCartEndpoint = PropertiesUtil.toString(properties.get(VALIDATE_CART_ENDPOINT), "");
     	this.createCartEndpoint = PropertiesUtil.toString(properties.get(CREATE_CART_ENDPOINT), "");
+    	this.consumerKey = PropertiesUtil.toString(properties.get(CONSUMER_KEY), "");
+    	this.consumerSecret = PropertiesUtil.toString(properties.get(CONSUMER_SECRET), "");
+    	this.oauthUsername = PropertiesUtil.toString(properties.get(OAUTH_USERNAME), "");
+    	this.oauthPassword = PropertiesUtil.toString(properties.get(OAUTH_PASSWORD), "");
     }
      
     
@@ -138,6 +158,38 @@ public class OSGIConfig{
      
     public void setCreateCartEndpoint(String createCartEndpoint){
     	this.createCartEndpoint =createCartEndpoint;
+    }
+    
+    public String getConsumerKey(){
+    	return this.consumerKey;
+    }
+     
+    public void setConsumerKey(String consumerKey){
+    	this.consumerKey = consumerKey;
+    }
+    
+    public String getConsumerSecret(){
+    	return this.consumerSecret;
+    }
+     
+    public void setConsumerSecret(String consumerSecret){
+    	this.consumerSecret =consumerSecret;
+    }
+    
+    public String getOauthUsername(){
+    	return this.oauthUsername;
+    }
+     
+    public void setOauthUsername(String consumerKey){
+    	this.oauthUsername = oauthUsername;
+    }
+    
+    public String getOauthPassword(){
+    	return this.oauthPassword;
+    }
+     
+    public void setOauthPassword(String oauthPassword){
+    	this.oauthPassword =oauthPassword;
     }
        
 }

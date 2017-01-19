@@ -27,19 +27,18 @@ use(function () {
         pageContentResource = page.getContentResource();
         pageValueMap = pageContentResource.adaptTo(org.apache.sling.api.resource.ValueMap);
         if (pageValueMap.get("hideInNav", java.lang.Boolean)) {
-            if (page.getTitle() == 'Cart') {
-            	cartPath = page.getPath();
-            }
         	continue;
         }
 
         // No strict comparison, because the types returned from the Java APIs
         // don't strictly match the JavaScript types
-        var selected = (page.getPath() == currentNavPath);
+        var className = (page.getPath() == currentNavPath)? "is-active" : "";
+        var isCart = (page.getTitle() == 'Cart');
 
         items.push({
             page: page,
-            selected : selected
+            className : className,
+            isCart: isCart
         });
     }
 

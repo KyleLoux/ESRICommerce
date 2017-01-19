@@ -31,15 +31,9 @@
         </select>
         <div class="column-18 tablet-column-6 phone-column-4">
             <nav class="sub-nav-list mobile-hide" role="navigation" aria-labelledby="subnav" data-sly-list="${topnav.items}">
-                <a data-sly-test.active="${item.selected}" href="${item.page.path}.html" class="sub-nav-link is-active">${item.page.title}</a>
-                <a data-sly-test="${!active}"href="${item.page.path}.html" class="sub-nav-link">${item.page.title}</a>
+                <a data-sly-test="${!item.isCart}" href="${item.page.path}.html" class="sub-nav-link ${item.className}">${item.page.title}</a>
+                <a data-sly-test="${item.isCart}" href="${item.page.path}.html" class="sub-nav-link ${item.className}"><img src="/apps/esricommerce/components/structure/topnav/clientlib/img/shopping-cart-24.png" style="margin-left: 10px; height: 16px; width: 16px;">&nbsp;&nbsp;Cart</a>
             </nav>
-        </div>
-        <!-- SHOPPING CART ICON AND TEXT -->
-        <div class="column-2">
-        	<a class="sub-nav-link" href="${topnav.cartPath}.html">
-            	<img src="/apps/esricommerce/components/structure/topnav/clientlib/img/shopping-cart-24.png">&nbsp;&nbsp;Cart
-			</a>
         </div>
         <!-- END SUB NAVIGATION -->
     </div>

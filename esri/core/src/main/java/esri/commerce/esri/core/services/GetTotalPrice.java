@@ -17,8 +17,8 @@ public class GetTotalPrice extends WCMUse{
      private float totalPrice = 0;
      private String APIURL;
           
-     private final String consumerKey = "c73d0e48868865a5c10de2672572175c05873f0fb";
-     private final String consumerSecret = "b25ca848cd700a375987434cc4ef551a";       
+     private  String consumerKey = "c73d0e48868865a5c10de2672572175c05873f0fb";
+     private  String consumerSecret = "b25ca848cd700a375987434cc4ef551a";       
      
      @Override
      public void activate() throws Exception {
@@ -27,6 +27,8 @@ public class GetTotalPrice extends WCMUse{
         	 
         	 OSGIConfig osgi = getSlingScriptHelper().getService(OSGIConfig.class);
         	 APIURL = osgi.getGetPriceEndPoint();
+        	 consumerKey = osgi.getConsumerKey();
+        	 consumerSecret = osgi.getConsumerSecret();
         	 
         	 String locale = get("locale", String.class);
         	 String token = get("token", String.class);

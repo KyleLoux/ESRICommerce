@@ -23,6 +23,8 @@ import okhttp3.Response;
 
 import okhttp3.OkHttpClient;
 import com.adobe.cq.sightly.WCMUse;
+import java.util.Base64;
+
 
 public class AccessToken extends WCMUse{
      private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -33,9 +35,11 @@ public class AccessToken extends WCMUse{
      private String requestTokenAPI;
      private String authorizeTokenAPI;
      private String accessTokenAPI;
+     private String oauthUsername;
+     private String oauthPassword;
      
-     private final String consumerKey = "c73d0e48868865a5c10de2672572175c05873f0fb";
-     private final String consumerSecret = "b25ca848cd700a375987434cc4ef551a";
+     private  String consumerKey = "c73d0e48868865a5c10de2672572175c05873f0fb";
+     private  String consumerSecret = "b25ca848cd700a375987434cc4ef551a";
 
      @Override
      public void activate() throws Exception {
@@ -48,7 +52,10 @@ public class AccessToken extends WCMUse{
     	 requestTokenAPI = osgi.getRequestTokenEndpoint();
     	 authorizeTokenAPI = osgi.getAuthorizeTokenEndpoint();
     	 accessTokenAPI = osgi.getAcessTokenEndpoint();
-    	 
+    	 consumerKey = osgi.getConsumerKey();
+    	 consumerSecret = osgi.getConsumerSecret();
+    	 oauthUsername = osgi.getOauthUsername();
+    	 oauthPassword = osgi.getOauthPassword();
          try
          {
         	 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -60,25 +67,29 @@ public class AccessToken extends WCMUse{
         			  .asJson();
         	 json = response.getBody().getObject();
         	         	 
+        	 String userNamePassword = oauthUsername + ":" + oauthPassword;
+        	 byte[] encodedBytes = Base64.getEncoder().encode(userNamePassword.getBytes());
+        	 logger.error("1 is "+ json.toString());
         	 
         	 HttpResponse<JsonNode> response2 = Unirest.post(authorizeTokenAPI)
         			  .header("content-type", "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW")
-        			  .header("oauth_user", "esridev:7187!rmkAMV1jk")
+        			  .header("oauth_user",  oauthUsername+ ":" + oauthPassword)
         			  .header("cache-control", "no-cache")
         			  .header("postman-token", "4f3d5136-1c85-3f59-375b-65d3c7de72e9")
-        			  .body("------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_user\"\r\n\r\nZXNyaWRldjo3MTg3IXJta0FNVjFqaw==\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_consumer_key\"\r\n\r\n" + consumerKey + "\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_token\"\r\n\r\n" + json.getString("oauth_token") +  "\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_signature_method\"\r\n\r\nPLAINTEXT\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_timestamp\"\r\n\r\n" + timestamp.getTime() + "\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_nonce\"\r\n\r\nogFaOM\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_version\"\r\n\r\n1.0\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_signature\"\r\n\r\n" + consumerSecret + "%2617a78829630f534f73eac2571eea18b1\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--")
+        			  .body("------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_user\"\r\n\r\n" + new String(encodedBytes) +"\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_consumer_key\"\r\n\r\n" + consumerKey + "\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_token\"\r\n\r\n" + json.getString("oauth_token") +  "\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_signature_method\"\r\n\r\nPLAINTEXT\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_timestamp\"\r\n\r\n" + timestamp.getTime() + "\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_nonce\"\r\n\r\nogFaOM\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_version\"\r\n\r\n1.0\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_signature\"\r\n\r\n" + consumerSecret + "%2617a78829630f534f73eac2571eea18b1\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--")
         			  .asJson();
         	 
         	 json2 = response2.getBody().getObject();
-        	 
+        	 logger.error("2 is "+ json2.toString());
         	 HttpResponse<JsonNode> response3 = Unirest.post(accessTokenAPI)
         			  .header("content-type", "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW")
-        			  .header("oauth_user", "ZXNyaWRldjo3MTg3IXJta0FNVjFqaw==")
+        			  .header("oauth_user", new String(encodedBytes))
         			  .header("cache-control", "no-cache")
         			  .header("postman-token", "a889f47d-6167-f863-4b13-c610f0ff8a10")
-        			  .body("------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_user\"\r\n\r\nZXNyaWRldjo3MTg3IXJta0FNVjFqaw==\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_verifier\"\r\n\r\n" + json2.getString("oauth_verifier") + "\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_consumer_key\"\r\n\r\n" + consumerKey + "\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_token\"\r\n\r\n" + json.getString("oauth_token") + "\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_signature_method\"\r\n\r\nPLAINTEXT\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_timestamp\"\r\n\r\n" + timestamp.getTime() + "\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_nonce\"\r\n\r\niUyC0J\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_version\"\r\n\r\n1.0\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_signature\"\r\n\r\n" + consumerSecret + "&" + json.getString("oauth_token_secret") + "\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--")
+        			  .body("------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_user\"\r\n\r\n" + new String(encodedBytes) + "\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_verifier\"\r\n\r\n" + json2.getString("oauth_verifier") + "\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_consumer_key\"\r\n\r\n" + consumerKey + "\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_token\"\r\n\r\n" + json.getString("oauth_token") + "\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_signature_method\"\r\n\r\nPLAINTEXT\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_timestamp\"\r\n\r\n" + timestamp.getTime() + "\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_nonce\"\r\n\r\niUyC0J\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_version\"\r\n\r\n1.0\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"oauth_signature\"\r\n\r\n" + consumerSecret + "&" + json.getString("oauth_token_secret") + "\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--")
         			  .asJson();
         	 json3 = response3.getBody().getObject();
+        	 logger.error("3 is "+ json3.toString());
          }
          catch(Exception e)
          {

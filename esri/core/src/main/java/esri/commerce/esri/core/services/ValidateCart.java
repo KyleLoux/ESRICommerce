@@ -107,6 +107,7 @@ public class ValidateCart extends WCMUse{
 	        		 if (obj.get("statusCode").equals(2)){
 	        			 cartIsValid = false;
 	        			 setInvalidSku(obj.getString("sku"));
+	        			 break;
 	        		 }
 	        	 }
 	        	 

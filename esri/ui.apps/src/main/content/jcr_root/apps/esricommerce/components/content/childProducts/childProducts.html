@@ -3,7 +3,7 @@
 <sly data-sly-use.clientLib="${'/libs/granite/sightly/templates/clientlib.html'}"/> 
 <sly data-sly-call="${clientLib.css @ categories='childProducts'}" />
 
-<div class="grid-container block-group block-group-3-up products" style="display: -webkit-box;" data-sly-list.item="${data.product.children}">
+<div class="grid-container block-group ${data.className} products" style="display: -webkit-box;" data-sly-list.item="${data.product.children}">
     <div class="card block noBorder">
         <div class="card-content">
             <h2 class="font-size-5">${item.title}</h2>
@@ -15,7 +15,5 @@
 </div>
 
 <sly data-sly-call="${clientLib.js @ categories='childProducts'}" />
-
-
-				
+			
   

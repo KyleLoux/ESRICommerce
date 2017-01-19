@@ -9,7 +9,6 @@
 <div data-sly-use.validate="${'esri.commerce.esri.core.services.ValidateCart' @ skus=data.skus, quantities=data.quantities, endDates=data.endDates}"></div>
 <div data-sly-use.getTotalPrice="${'esri.commerce.esri.core.services.GetTotalPrice' @ locale=data.locale, token=access.token, secret=access.secret, gcids=data.gcids, quantities=data.quantities}"></div>
 <!--INSERT CODE FOR CART TABLE HEADERS-->
-
 <div class="grid-container">
     <div class="column-24 mainContent">
         <div class="column-12 productContent">
@@ -31,7 +30,6 @@
 <div class="grid-container" style="margin-bottom:25px;" data-sly-list.item="${data.cart.products}">
     <div class="column-24 mainContent">
         <div class="column-3 productContent">
-            <img src="${data.products[itemList.index].image}" style="width:100px; height: 100px;" alt="Insert Image Here">
             <form id="remove${itemList.index}" method="POST" action="${ resource.path }.delete.html">
                 <input type="hidden" name="entryNumber" value="${ itemList.index }"/>
                 <input type="hidden" name="redirect" value="${ currentPage.path }.html"/>
@@ -115,7 +113,8 @@
         </div>
         <div class="column-7 productContent">
             <p style="text-align: right;">
-                <button type="submit" class="btn details btn-fill" style="width: 65%;">Proceed to Checkout</button>
+                <button data-sly-test="${validate.cartIsValid}" type="submit" class="btn details btn-fill" style="width: 65%;">Proceed to Checkout</button>
+                <button data-sly-test="${!validate.cartIsValid}" type="submit" class="btn details btn-fill" style="width: 65%;" disabled>Proceed to Checkout</button>
             </p>
             <p style="text-align: right; margin-right: 60px;">
                 <a href="${data.storefrontPath}.html" class="link-blue">Continue Shopping</a>

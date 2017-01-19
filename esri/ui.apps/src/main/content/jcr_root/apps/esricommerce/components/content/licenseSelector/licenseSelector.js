@@ -13,6 +13,8 @@ use(["commerce_init.js"], function (commerceInit) {
     var baseProductImagePath;
     var requiredTags = granite.resource.properties["requiredTags"];
     var licenseDescription = granite.resource.properties["licenseDescription"];
+    var quantityDisclaimer = granite.resource.properties["quantityDisclaimer"];
+    var licenseText = granite.resource.properties["licenseText"];
     var skus = [];
     var gcids = [];
     
@@ -97,6 +99,7 @@ use(["commerce_init.js"], function (commerceInit) {
         product.variationLead = variationLead;
 
         product.path = baseProduct.getPath();
+        //product = getProductProperties(product)
     }
 
     product.redirect = redirect;
@@ -115,7 +118,8 @@ use(["commerce_init.js"], function (commerceInit) {
     	nextChild = childrenIterator.next();
     	if(nextChild.getResourceType() == 'commerce/components/product') {
     		var childProduct = commerceService.getProduct(nextChild.getPath());
-    		var tags = childProduct.getProperty("cq:tagsVariants", java.lang.String).split('/')
+    		var tags = childProduct.getProperty("cq:tagsVariants", java.lang.String)
+    		tags = tags != null? tags.split('/') : "";
     		skus.push(childProduct.getProperty("sku", java.lang.String))
     		gcids.push(childProduct.getProperty("gcid", java.lang.String))
     		children.push({
@@ -123,10 +127,8 @@ use(["commerce_init.js"], function (commerceInit) {
     			productPath: childProduct.getPath(),
     			tag: tags[tags.length - 1],
     			sku: childProduct.getProperty("sku", java.lang.String),
-    			gcid: childProduct.getProperty("gcid", java.lang.String),
-    			first: i == 0? true : false
+    			gcid: childProduct.getProperty("gcid", java.lang.String)
     		});
-        	i++;
     	}
     }
     product.children = children;
@@ -150,17 +152,14 @@ use(["commerce_init.js"], function (commerceInit) {
     	locale: currentPage.getAbsoluteParent(2).getPath().replace("/content/esri/",""),
     	skus: skus,
     	gcids: gcids,
-    	licenseDescription:licenseDescription
+    	licenseDescription:licenseDescription,
+    	quantityDisclaimer: quantityDisclaimer,
+    	licenseText: licenseText ? licenseText : "License Type"
     };
 
     function getProductProperties(product) {
         if (!product) {
             return null;
-        }
-        var productImage;
-        var image = product.getImage();
-        if (image) {
-            productImage = resolver.getResource(image.getPath());
         }
         
         var vm = product.adaptTo(org.apache.sling.api.resource.ValueMap);
@@ -168,7 +167,10 @@ use(["commerce_init.js"], function (commerceInit) {
 
         return {
             title: product.getTitle(),
-            detailedDescription: product.getProperty('detailedDescription', java.lang.String)
+            detailedDescription: product.getProperty('detailedDescription', java.lang.String),
+			productPath: product.getPath(),
+			sku: product.getProperty("sku", java.lang.String),
+			gcid: product.getProperty("gcid", java.lang.String),
         };
     }
 });

@@ -32,7 +32,7 @@
 
 	
 	<div data-sly-resource="${ @path='par', resourceType='wcm/foundation/components/parsys'}" id="parsys"></div>
-	<div data-sly-resource="${ @path='fea', resourceType='/apps/esricommerce/components/content/featuredProducts'}" id="featuredProduct"></div>
+	<div data-sly-resource="${ @path='fea', resourceType='/apps/esricommerce/components/content/featuredProducts'}" id="featuredProduct" data-sly-unwrap></div>
 
     <footer class="page__footer">
         <p class="page__copyright">${"&copy; {0} ESRICommerce Site Site. All rights reserved." @ i18n, format=main.year, context='html'}</p>
