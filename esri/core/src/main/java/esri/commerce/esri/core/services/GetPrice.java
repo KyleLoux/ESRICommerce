@@ -48,11 +48,13 @@ public class GetPrice extends WCMUse{
 	
      private final Logger logger = LoggerFactory.getLogger(getClass());
      private Product product = null;
-     public String price = "";
+     public boolean hasPrice = false;
      
      private String consumerKey = "c73d0e48868865a5c10de2672572175c05873f0fb";
      private String consumerSecret = "b25ca848cd700a375987434cc4ef551a";
      private String APIURL;
+     
+     public String test = "";
      
 
      @Override
@@ -110,7 +112,7 @@ public class GetPrice extends WCMUse{
 		        	 for(int i = 0; i < array.length(); i++){
 		        		 Product newProduct = new Product(array.getJSONObject(i));
 		        		 product = newProduct;
-		        		 price = product.getEsriListUnitPrice();
+		        		 hasPrice = true;
 		        	 }
 	        		 
 	        	 } else{
@@ -135,14 +137,21 @@ public class GetPrice extends WCMUse{
 		this.product = product;
 	}
 
-	public String getPrice() {
-		return price;
+	public boolean isHasPrice() {
+		return hasPrice;
 	}
 
-	public void setPrice(String price) {
-		this.price = price;
+	public void setHasPrice(boolean hasPrice) {
+		this.hasPrice = hasPrice;
 	}
 	
+	public String getTest() {
+		return this.test;
+	}
+	
+	public void setTest(String test){
+		this.test = test;
+	}
 }
 
 

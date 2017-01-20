@@ -89,6 +89,7 @@ public class ValidateCart extends WCMUse{
 	        			  .header("postman-token", "4cf57dc6-0162-8216-2f94-38d7e5e13cd8")
 	        			  .body(bodyJson.toString())
 	        			  .asJson();
+	        	 
 	        	 JSONArray array = response2.getBody().getArray();
 	        	 for(int i = 0; i < array.length(); i++){
 	        		 JSONObject obj = array.getJSONObject(i);
@@ -102,10 +103,12 @@ public class ValidateCart extends WCMUse{
 		        			 }
 	        			 }
 	        		 }
-	        		 
+        			 logger.error("obj is " + obj.toString());
+
 	        		 
 	        		 if (obj.get("statusCode").equals(2)){
 	        			 cartIsValid = false;
+	        			 logger.error("invalid sku " + obj.getString("sku"));
 	        			 setInvalidSku(obj.getString("sku"));
 	        			 break;
 	        		 }

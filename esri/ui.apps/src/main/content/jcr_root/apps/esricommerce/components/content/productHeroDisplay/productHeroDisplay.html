@@ -26,7 +26,7 @@
     <p class="font-size-5 text-blue" style="text-align: center;"><a style="color: #0079c1" href="${data.pagePath}.html">${data.title} </a></p>
 </div>
 <div class="column-24">
-    <p class="font-size--1" style="text-align: center;">${data.description}</p>
+    <p class="font-size--1" style="text-align: center;">${data.description @ context='html'}</p>
 </div>
 
 <sly data-sly-call="${clientLib.js @ categories='productHeroDisplay'}" />

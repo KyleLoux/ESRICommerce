@@ -1,9 +1,13 @@
 package esri.commerce.esri.core.models;
 
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Product {
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+	
 	private String description = "";
 	private String display_name = "";
 	private String effective_date = "";

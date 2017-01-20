@@ -4,7 +4,7 @@
 <sly data-sly-call="${clientLib.css @ categories='extensionGrid'}" />
 <div data-sly-use.access="${'esri.commerce.esri.core.services.AccessToken'}"></div>
 <!-- BEGIN RECOMMENDED EXTENSIONS SECTION (IF APPLICABLE) -->
-<div class="grid-container recommendExt">
+<div class="grid-container recommendExt" data-sly-test="${data.extensions.length > 0}">
     <h2 class="font-size-5 leader-1 trailer-2" style="text-align: center;">Recommended Extensions</h2>
 
     <!-- CODE FOR THREE CARDS ACROSS - REPEAT AS NECESSARY BASED ON NUMBER OF EXTENSIONS AVAILABLE-->
@@ -97,6 +97,10 @@
             $("#extButton").removeAttr("disabled");
         else
             $("#extButton").attr("disabled", "disabled");
+    });
+    
+    $("#extButton").on("click", function() {
+        $('.subtotal').slideDown(500).delay(10000).slideUp(500)
     });
 </script>
 <script>
