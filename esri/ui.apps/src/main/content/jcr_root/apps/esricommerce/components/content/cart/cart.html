@@ -24,7 +24,6 @@
 </div>
 
 
-
 <!-- BEGIN CART CONTENTS SECTION - REPEAT ENTIRE SECTION BELOW AS OFTEN AS NECESSARY FOR NUMBER OF PRODUCTS IN CART -->
 <div class="grid-container cartRule"></div>
 <div class="grid-container" style="margin-bottom:25px;" data-sly-list.item="${data.cart.products}">
@@ -33,10 +32,10 @@
             <form id="remove${itemList.index}" method="POST" action="${ resource.path }.delete.html">
                 <input type="hidden" name="entryNumber" value="${ itemList.index }"/>
                 <input type="hidden" name="redirect" value="${ currentPage.path }.html"/>
-                <button type="submit" class="btn btn-default btn-icon"><i class="fa fa-trash"></i>Remove</button>
-                <!-- <p>
+                <!-- <button type="submit" class="btn btn-default btn-icon"><i class="fa fa-trash"></i>Remove</button> -->
+                <p>
                 	<a class="link-blue" href="javascript:$('remove${itemList.index}').submit();">Remove</a>
-            	</p> -->
+            	</p>
             </form>
         </div>
         <div class="column-9 productContent">
@@ -49,7 +48,7 @@
         <div data-sly-test.newEndDate="${validate.getNeedsNewEndDate == data.products[itemList.index].sku}" data-sly-use.getPrice="${'esri.commerce.esri.core.services.GetPrice' @ locale=data.locale, token=access.token, secret=access.secret, gcid=data.products[itemList.index].gcid, startDate=data.products[itemList.index].startDate, endDate=validate.getNewEndDate}"></div>
         <div data-sly-test="${!newEndDate}" data-sly-use.getPrice="${'esri.commerce.esri.core.services.GetPrice' @ locale=data.locale, token=access.token, secret=access.secret, gcid=data.products[itemList.index].gcid, startDate=data.products[itemList.index].startDate, endDate=data.products[itemList.index].endDate}"></div>        
         <div class="column-6 productContent">
-            <p class="font-size-2 price" style="margin-top:5px;">$ ${getPrice.price}
+            <p class="font-size-2 price" style="margin-top:5px;">$ ${getPrice.product.esriListUnitPrice}
 
 <!-- TOOLTIP FOR PRORATED PRICING - COMMENT AND UNCOMMENT AS NECESSARY -->
                 <a data-sly-test="${newEndDate}" class="tooltip tooltip-multiline tooltip-right" aria-label="This is a prorated price based on a prorated subscription." ><span class="icon-ui-description icon-ui-blue"></span></a>
@@ -92,8 +91,7 @@
 <div class="grid-container">
 <form method="POST" action="${osgi.createCartEndpoint}">
 <input type='hidden' name='authKey'  value='3df45282dd3b8859254419d0b54d4d50'/>
-<input type='hidden' name='userName'  value='smch_internal'/>
-<input type='hidden' name='customerNumber'  value='smch_customer'/>
+<input type='hidden' name='customerNumber'  value='301'/>
 <input type='hidden' name='distributorNumber'  value='${data.distributor}'/> 
 <input type='hidden' name='country'  value='${data.country}'/> 
 <input type='hidden' name='currency'  value='${data.currency}'/>

@@ -8,6 +8,7 @@ use(["commerce_init.js"], function (commerceInit) {
     var commerceSession = commerceService.login(request, response);
     var productPath = currentPage.getProperties().get("cq:productMaster", java.lang.String);
     var baseProduct = commerceService.getProduct(productPath);
+    var tagManager = request.resourceResolver.adaptTo(Packages.com.day.cq.tagging.TagManager)
     var redirect, errorRedirect, addToCartUrl;
     var variants = [];
     var baseProductImagePath;
@@ -15,6 +16,9 @@ use(["commerce_init.js"], function (commerceInit) {
     var licenseDescription = granite.resource.properties["licenseDescription"];
     var quantityDisclaimer = granite.resource.properties["quantityDisclaimer"];
     var licenseText = granite.resource.properties["licenseText"];
+    var noPriceMessage = granite.resource.properties["noPriceMessage"];
+    var loggedIn = currentPage.getProperties().get("loggedIn", java.lang.String);
+    var notLoggedInMessage = granite.resource.properties["notLoggedInMessage"];
     var skus = [];
     var gcids = [];
     
@@ -119,13 +123,12 @@ use(["commerce_init.js"], function (commerceInit) {
     	if(nextChild.getResourceType() == 'commerce/components/product') {
     		var childProduct = commerceService.getProduct(nextChild.getPath());
     		var tags = childProduct.getProperty("cq:tagsVariants", java.lang.String)
-    		tags = tags != null? tags.split('/') : "";
     		skus.push(childProduct.getProperty("sku", java.lang.String))
     		gcids.push(childProduct.getProperty("gcid", java.lang.String))
     		children.push({
     			title: childProduct.getProperty("jcr:title", java.lang.String),
     			productPath: childProduct.getPath(),
-    			tag: tags[tags.length - 1],
+    			tag: tagManager.resolve(tags).getTitle(),
     			sku: childProduct.getProperty("sku", java.lang.String),
     			gcid: childProduct.getProperty("gcid", java.lang.String)
     		});
@@ -154,7 +157,10 @@ use(["commerce_init.js"], function (commerceInit) {
     	gcids: gcids,
     	licenseDescription:licenseDescription,
     	quantityDisclaimer: quantityDisclaimer,
-    	licenseText: licenseText ? licenseText : "License Type"
+    	licenseText: licenseText ? licenseText : "License Type",
+    	noPriceMessage: noPriceMessage ? noPriceMessage : "For questions or to purchase, please contact your local <a href='http://www.esri.com/about-esri/contact#international'>Esri office.</a>",
+    	loggedIn: loggedIn ? loggedIn : "true",
+    	notLoggedInMessage : notLoggedInMessage ? notLoggedInMessage : "Sign in to see Price"
     };
 
     function getProductProperties(product) {

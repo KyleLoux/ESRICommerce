@@ -38,7 +38,12 @@
 							    jcr:primaryType="nt:unstructured"
 							    sling:resourceType="cq/gui/components/authoring/dialog/richtext"
 							    fieldLabel="Quantity Disclaimer"							    
-							    name="./quantityDisclaimer"/>							    						    
+							    name="./quantityDisclaimer"/>	
+	                        <noPriceMessage
+							    jcr:primaryType="nt:unstructured"
+							    sling:resourceType="cq/gui/components/authoring/dialog/richtext"
+							    fieldLabel="No Price Message"							    
+							    name="./noPriceMessage"/>							    						    						    
                         </items>
                     </column>
                 </items>

@@ -4,23 +4,32 @@
 <sly data-sly-call="${clientLib.css @ categories='licenseSelector'}" />
 <div data-sly-call="${clientLib.all @ categories='granite.csrf.standalone'}"></div>
 <div data-sly-use.access="${'esri.commerce.esri.core.services.AccessToken'}"></div>
+
 <iframe name="hiddenFrame" width="0" height="0" border="0" style="display: none;"></iframe>
 <form target="hiddenFrame" id="addToCart" class="we-Product-form" action="${ data.product.addToCartUrl }" method="POST"> 
 	
 	<input type="hidden" name="redirect" value="${data.product.redirect}.html"/>
 	<!-- <p class="font-size--1" style="margin-top: 25px;">License Type &nbsp;&nbsp;<a class="js-modal-toggle font-size--2 link-blue" href="#" data-modal="foo">Help me choose</a></p> -->
-	<p data-sly-test="${data.product.children.length > 1}" class="font-size--1" style="margin-top: 25px;">${data.licenseText @ context='html'} &nbsp;&nbsp;<a class="js-modal-toggle font-size--2 link-blue" href="#" data-modal="chooseLicense">Help me choose</a></p>
+	<p data-sly-test="${data.product.children.length >= 1}" class="font-size--1" style="margin-top: 25px;">${data.licenseText @ context='html'} &nbsp;&nbsp;<a class="js-modal-toggle font-size--2 link-blue" href="#" data-modal="chooseLicense">Help me choose</a></p>
 	<div data-sly-test="${data.product.children.length >= 1}" data-sly-list="${data.product.children}">
 		<p class="font-size-1 licenseTypes">
 	        <div data-sly-use.getPrice="${'esri.commerce.esri.core.services.GetPrice' @ locale=data.locale, token=access.token, secret=access.secret, gcid=item.gcid}"></div>
 	        <input id="license${itemList.index}" type="radio" name="product-path" value="${item.productPath}">
-	        <label for="license${itemList.index}" class="license${itemList.count} label${itemList.count} font-size--1 ">${item.title} <br /><br />$${getPrice.product.esriListUnitPrice}</label>
+	        <label for="license${itemList.index}" class="license${itemList.count} label${itemList.count} font-size--1 ">${item.tag} <br /><br />$${getPrice.product.esriListUnitPrice}</label>
 	    </p>	    
     </div>
 	<div data-sly-test="${data.product.children.length < 1}">
-	    <p class="font-size-1">
+	    <p class="font-size-1 licenseTypes" >
 	        <div data-sly-use.getPrice="${'esri.commerce.esri.core.services.GetPrice' @ locale=data.locale, token=access.token, secret=access.secret, gcid=data.product.base.gcid}"></div>
-			$${getPrice.product.esriListUnitPrice}
+			<div data-sly-test.hasPrice="${getPrice.hasPrice && data.loggedIn == 'true'}">
+				$${getPrice.product.esriListUnitPrice}
+			</div>
+			<div data-sly-test="${!hasPrice && data.loggedIn}">
+				${data.noPriceMessage @ context='html'}
+			</div>
+			<div data-sly-test="${!data.loggedIn}">
+				${data.notLoggedInMessage}
+			</div>			
 		</p>
 		<input type="hidden" name="product-path" value="${data.product.base.productPath}"/>
 	</div>	
@@ -30,8 +39,8 @@
             <input min="0" value="0" id="quantity" style="margin-left:10px; width: 70px; display: inline-block !important;" required="" aria-required="true" type="number" name="product-quantity">  ${data.quantityDisclaimer @ context='html'}
         </p>
         <hr class="addtoCart">
-        <button data-sly-test="${data.product.children.length == 2}" id="myButton" type="submit" class="btn details btn-fill" disabled>Add to Cart</button>
-        <button data-sly-test="${data.product.children.length != 2}" id="myButton2" type="submit" class="btn details btn-fill" disabled>Add to Cart</button>
+        <button  id="myButton" type="submit" class="btn details btn-fill" disabled>Add to Cart</button>
+        
         <span class="font-size-1 text-off-black icon-ui-description alert is-active" style="display: none; margin-top: 10px; text-align:center;">This purchase qualifies for a multiple quantity discount. Please contact us at 800-447-9778 for a quotation.
 		</span>
     </div>
@@ -153,9 +162,6 @@
           }
       });
       $(document).ready(function () {
-      
-      //TESTING ONLY
-      $('#myButton2').removeAttr("disabled");
       
       
           if ($('#license1').is(':checked') && ($('#quantity').val() == 0))
