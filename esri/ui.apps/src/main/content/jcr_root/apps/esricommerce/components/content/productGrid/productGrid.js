@@ -1,6 +1,7 @@
 'use strict';
 var global = this;
 use(["commerce_init.js"], function (commerceInit) {
+    var EsriProductClass = Packages.esri.commerce.esri.core.models.EsriProduct;
     var product = {};
 
     var resolver = resource.getResourceResolver();
@@ -9,6 +10,7 @@ use(["commerce_init.js"], function (commerceInit) {
     var commerceSession = commerceService.login(request, response);
     var productPath = currentPage.getProperties().get("cq:productMaster", java.lang.String);
     var baseProduct = commerceService.getProduct(productPath);
+    var esriProduct = new EsriProductClass(baseProduct, currentPage);
     var products = properties.get("product");
     var items = new Array();
     var kyle = "";
@@ -47,13 +49,14 @@ use(["commerce_init.js"], function (commerceInit) {
     		var result = results.next();
     		var pagePath = result.getParent().getPath();
     	}
+        var localEsriProduct = new EsriProductClass(product, currentPage);
 
         return {
-            title: product.getTitle(),
-            summaryDescription: product.getProperty('summaryDescription', java.lang.String),
-            labelCaption: product.getProperty('labelCaption', java.lang.String),
+            title: localEsriProduct.getTitle(),
+            summaryDescription: localEsriProduct.getProperty('summaryDescription', java.lang.String),
+            labelCaption: localEsriProduct.getProperty('labelCaption', java.lang.String),
             pagePath: pagePath,            
-            image: product.getProperty('smallImage', java.lang.String)
+            image: localEsriProduct.getProperty('smallImage', java.lang.String)
         };
     }
 });

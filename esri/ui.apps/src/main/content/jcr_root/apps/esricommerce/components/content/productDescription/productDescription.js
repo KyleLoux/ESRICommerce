@@ -1,6 +1,7 @@
 'use strict';
 
 use(["commerce_init.js"], function (commerceInit) {
+    var EsriProductClass = Packages.esri.commerce.esri.core.models.EsriProduct;
     var product = {};
 
     var resolver = resource.getResourceResolver();
@@ -8,6 +9,7 @@ use(["commerce_init.js"], function (commerceInit) {
     var commerceSession = commerceService.login(request, response);
     var productPath = currentPage.getProperties().get("cq:productMaster", java.lang.String);
     var baseProduct = commerceService.getProduct(productPath);
+    var esriProduct = new EsriProductClass(baseProduct, currentPage);
     var redirect, errorRedirect, addToCartUrl;
     var variants = [];
     var baseProductImagePath;
@@ -144,13 +146,14 @@ use(["commerce_init.js"], function (commerceInit) {
         if (image) {
             productImage = resolver.getResource(image.getPath());
         }
-        
+        var localEsriProduct = new EsriProductClass(product, currentPage);
+
         var vm = product.adaptTo(org.apache.sling.api.resource.ValueMap);
 
 
         return {
-            title: product.getTitle(),
-            detailedDescription: product.getProperty('detailedDescription', java.lang.String),           
+            title: localEsriProduct.getTitle(),
+            detailedDescription: localEsriProduct.getProperty('detailedDescription', java.lang.String),
         };
     }
 });

@@ -41,6 +41,8 @@ public class EsriProduct {
         return getProperty("jcr:title");
     }
     public String getSKU() { return product.getSKU(); }
+    //Should add: getPath(), getPagePath(), getSKU()
+
     public ImageResource getImage() {
         //Modify this to get locale-specific image details
         return product.getImage();
