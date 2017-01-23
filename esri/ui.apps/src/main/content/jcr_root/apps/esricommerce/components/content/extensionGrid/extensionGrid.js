@@ -1,6 +1,7 @@
 'use strict';
 var global = this;
 use(["commerce_init.js"], function (commerceInit) {
+    var EsriProductClass = Packages.esri.commerce.esri.core.models.EsriProduct;
     var product = {};
 
     var resolver = resource.getResourceResolver();
@@ -9,6 +10,7 @@ use(["commerce_init.js"], function (commerceInit) {
     var commerceSession = commerceService.login(request, response);
     var productPath = currentPage.getProperties().get("cq:productMaster", java.lang.String);
     var baseProduct = commerceService.getProduct(productPath);
+    var esriProduct = new EsriProductClass(baseProduct, currentPage);
     var redirect, errorRedirect, addToCartUrl;
     var variants = [];
     var baseProductImagePath;
@@ -146,7 +148,7 @@ use(["commerce_init.js"], function (commerceInit) {
             return null;
         }
         var productImage;
-        var image = product.getImage();
+        var image = esriProduct.getImage();
         if (image) {
             productImage = resolver.getResource(image.getPath());
         }
@@ -179,9 +181,9 @@ use(["commerce_init.js"], function (commerceInit) {
 
 
         return {
-            title: product.getTitle(),
-            summaryDescription: product.getProperty('summaryDescription', java.lang.String),  
-            gcid: product.getProperty('gcid', java.lang.String),
+            title: esriProduct.getTitle(),
+            summaryDescription: esriProduct.getProperty('summaryDescription', java.lang.String),
+            gcid: esriProduct.getProperty('gcid', java.lang.String),
             productPath: product.getPath(),
             kyle: kyle,
             gcid1: childGcids[0],

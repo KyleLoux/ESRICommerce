@@ -1,6 +1,7 @@
 'use strict';
 var global = this;
 use(["commerce_init.js"], function (commerceInit) {
+    var EsriProductClass = Packages.esri.commerce.esri.core.models.EsriProduct;
     var product = {};
 
     var resolver = resource.getResourceResolver();
@@ -8,6 +9,7 @@ use(["commerce_init.js"], function (commerceInit) {
     var commerceSession = commerceService.login(request, response);
     var productPath = currentPage.getProperties().get("cq:productMaster", java.lang.String);
     var baseProduct = commerceService.getProduct(productPath);
+    var esriProduct = new EsriProductClass(baseProduct, currentPage);
     var tagManager = request.resourceResolver.adaptTo(Packages.com.day.cq.tagging.TagManager)
     var redirect, errorRedirect, addToCartUrl;
     var variants = [];
@@ -122,11 +124,12 @@ use(["commerce_init.js"], function (commerceInit) {
     	nextChild = childrenIterator.next();
     	if(nextChild.getResourceType() == 'commerce/components/product') {
     		var childProduct = commerceService.getProduct(nextChild.getPath());
+    		var childEsriProduct = new EsriProductClass(childProduct, currentPage);
     		var tags = childProduct.getProperty("cq:tagsVariants", java.lang.String)
     		skus.push(childProduct.getProperty("sku", java.lang.String))
     		gcids.push(childProduct.getProperty("gcid", java.lang.String))
     		children.push({
-    			title: childProduct.getProperty("jcr:title", java.lang.String),
+    			title: childEsriProduct.getProperty("jcr:title", java.lang.String),
     			productPath: childProduct.getPath(),
     			tag: tagManager.resolve(tags).getTitle(),
     			sku: childProduct.getProperty("sku", java.lang.String),
@@ -169,11 +172,11 @@ use(["commerce_init.js"], function (commerceInit) {
         }
         
         var vm = product.adaptTo(org.apache.sling.api.resource.ValueMap);
-
+        var localEsriProduct = new EsriProductClass(product, currentPage);
 
         return {
-            title: product.getTitle(),
-            detailedDescription: product.getProperty('detailedDescription', java.lang.String),
+            title: esriProduct.getTitle(),
+            detailedDescription: esriProduct.getProperty('detailedDescription', java.lang.String),
 			productPath: product.getPath(),
 			sku: product.getProperty("sku", java.lang.String),
 			gcid: product.getProperty("gcid", java.lang.String),

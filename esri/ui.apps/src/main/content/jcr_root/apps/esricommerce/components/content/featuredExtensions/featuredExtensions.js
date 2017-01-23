@@ -1,6 +1,7 @@
 'use strict';
 var global = this;
 use(["commerce_init.js"], function (commerceInit) {
+    var EsriProductClass = Packages.esri.commerce.esri.core.models.EsriProduct;
     var product = {};
 
     var resolver = resource.getResourceResolver();
@@ -45,8 +46,9 @@ use(["commerce_init.js"], function (commerceInit) {
     		var pagePath = result.getParent().getPath();
     	}
 
+        var localEsriProduct = new EsriProductClass(product, currentPage);
         return {
-            title: product.getTitle(),
+            title: localEsriProduct.getTitle(),
             pagePath: pagePath,
        };
     }

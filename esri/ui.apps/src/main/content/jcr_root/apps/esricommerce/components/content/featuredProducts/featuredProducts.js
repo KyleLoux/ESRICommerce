@@ -1,6 +1,7 @@
 'use strict';
 var global = this;
 use(["commerce_init.js"], function (commerceInit) {
+    var EsriProductClass = Packages.esri.commerce.esri.core.models.EsriProduct;
     var product = {};
 
     var resolver = resource.getResourceResolver();
@@ -33,7 +34,8 @@ use(["commerce_init.js"], function (commerceInit) {
             return null;
         }
         var productImage;
-        var image = product.getImage();
+        var localEsriProduct = new EsriProductClass(product, currentPage);
+        var image = localEsriProduct.getImage();
         if (image) {
             productImage = resolver.getResource(image.getPath());
         }
@@ -45,11 +47,11 @@ use(["commerce_init.js"], function (commerceInit) {
     	}
 
         return {
-            title: product.getTitle(),
-            summaryDescription: product.getProperty('summaryDescription', java.lang.String),
-            labelCaption: product.getProperty('labelCaption', java.lang.String),
+            title: localEsriProduct.getTitle(),
+            summaryDescription: localEsriProduct.getProperty('summaryDescription', java.lang.String),
+            labelCaption: localEsriProduct.getProperty('labelCaption', java.lang.String),
             pagePath: pagePath,
-            image: product.getProperty('smallImage', java.lang.String),
+            image: localEsriProduct.getProperty('smallImage', java.lang.String),
         };
     }
 });

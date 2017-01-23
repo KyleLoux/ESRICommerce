@@ -1,6 +1,7 @@
 'use strict';
 
 use(["commerce_init.js"], function (commerceInit) {
+    var EsriProductClass = Packages.esri.commerce.esri.core.models.EsriProduct;
     var product = {};
 
     var resolver = resource.getResourceResolver();
@@ -8,6 +9,7 @@ use(["commerce_init.js"], function (commerceInit) {
     var commerceSession = commerceService.login(request, response);
     var productPath = currentPage.getProperties().get("cq:productMaster", java.lang.String);
     var baseProduct = commerceService.getProduct(productPath);
+    var esriProduct = new EsriProductClass(baseProduct, currentPage);
     var redirect, errorRedirect, addToCartUrl;
     var variants = [];
     var baseProductImagePath;
@@ -146,28 +148,28 @@ use(["commerce_init.js"], function (commerceInit) {
         }
         
         var vm = product.adaptTo(org.apache.sling.api.resource.ValueMap);
-
+        var localEsriProduct = new EsriProductClass(product, currentPage);
 
         return {
             path: product.getPath(),
             pagePath: product.getPagePath(),
             sku: product.getSKU(),
-            title: product.getTitle(),
-            effectiveDate: product.getProperty('effectiveDate', java.lang.String),
-            endDate: product.getProperty('endDate', java.lang.String),
-            mainLabel: product.getProperty('mainLabel', java.lang.String),
-            summaryDescription: product.getProperty('summaryDescription', java.lang.String),
-            detailedDescription: product.getProperty('detailedDescription', java.lang.String),
-            labelCaption: product.getProperty('labelCaption', java.lang.String),
-            productTags: product.getProperty('cq:tags', java.lang.String),
-            featured: product.getProperty('featured', java.lang.String),
-            sapProductName: product.getProperty('sapProductName', java.lang.String),
-            productVersion: product.getProperty('productVersion', java.lang.String),
-            landingStyle: product.getProperty('landingStyle', java.lang.String),
-            landingPriority: product.getProperty('landingPriority', java.lang.String),
-            features: product.getProperty('features', java.lang.String),
-            industries: product.getProperty('industries', java.lang.String),
-            variants: product.getProperty('variants', java.lang.String),
+            title: localEsriProduct.getTitle(),
+            effectiveDate: localEsriProduct.getProperty('effectiveDate', java.lang.String),
+            endDate: localEsriProduct.getProperty('endDate', java.lang.String),
+            mainLabel: localEsriProduct.getProperty('mainLabel', java.lang.String),
+            summaryDescription: localEsriProduct.getProperty('summaryDescription', java.lang.String),
+            detailedDescription: localEsriProduct.getProperty('detailedDescription', java.lang.String),
+            labelCaption: localEsriProduct.getProperty('labelCaption', java.lang.String),
+            productTags: localEsriProduct.getProperty('cq:tags', java.lang.String),
+            featured: localEsriProduct.getProperty('featured', java.lang.String),
+            sapProductName: localEsriProduct.getProperty('sapProductName', java.lang.String),
+            productVersion: localEsriProduct.getProperty('productVersion', java.lang.String),
+            landingStyle: localEsriProduct.getProperty('landingStyle', java.lang.String),
+            landingPriority: localEsriProduct.getProperty('landingPriority', java.lang.String),
+            features: localEsriProduct.getProperty('features', java.lang.String),
+            industries: localEsriProduct.getProperty('industries', java.lang.String),
+            variants: localEsriProduct.getProperty('variants', java.lang.String),
             image: productImage != null ?
                 productImage.adaptTo(org.apache.sling.api.resource.ValueMap).get("fileReference", java.lang.String) : ""
         };
