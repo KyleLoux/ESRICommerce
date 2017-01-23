@@ -91,30 +91,36 @@ public class EsriProduct {
 
     public <T> T getProperty(String propName, Class<T> aClass) {
         Locale locale = page.getLanguage(false);
-        if (!locale.getLanguage().equals("en")) {
-            //If the page is not under the en locale, try to assess it further
-            //Start with full locale, then scale back to less specific locales until done
-            ValueMap props = product.adaptTo(ValueMap.class);
-            StringBuilder localizedProp = new StringBuilder(propName).append(".").append(locale.getLanguage());
+        //If the page is not under the en locale, try to assess it further
+        //Start with full locale, then scale back to less specific locales until done
+        ValueMap props = product.adaptTo(ValueMap.class);
+        StringBuilder localizedProp = new StringBuilder(propName).append(".").append(locale.getLanguage());
 
-            String languagePropName = localizedProp.toString();
-            String countryPropName = localizedProp.append("-").append(locale.getCountry()).toString();
+        String languagePropName = localizedProp.toString();
+        String countryPropName = localizedProp.append("-").append(locale.getCountry()).toString();
 
-            //Try to get the exact country key (e.g. en-US)
-            if (props.containsKey(countryPropName)) {
-                return product.getProperty(countryPropName, aClass);
-            }
-            //If not available, fall back to the language key (e.g. en)
-            if (props.containsKey(languagePropName)) {
-                return product.getProperty(languagePropName, aClass);
-            }
-            //If not available, default to the base value (no locale information)
-            else {
-                //Default to the regular (usually english) prop name
-                return product.getProperty(propName, aClass);
-            }
+        //Try to get the exact country key (e.g. en-US)
+        if (props.containsKey(countryPropName)) {
+            return product.getProperty(countryPropName, aClass);
         }
-        //If the locale contained english as the language, just return the prop directly
-        return product.getProperty(propName, aClass);
+        //If not available, fall back to the language key (e.g. en)
+        else if (props.containsKey(languagePropName)) {
+            return product.getProperty(languagePropName, aClass);
+        }
+        //If not available, default to the base value (no locale information)
+        else if (props.containsKey(propName)){
+            //Default to the regular (usually english) prop name
+            return product.getProperty(propName, aClass);
+        } else {
+            //If all of these fail, evaluate the properties using the API's method of calling from parents
+            T returnObj = product.getProperty(countryPropName, aClass);
+            if (returnObj != null)
+                return returnObj;
+            returnObj = product.getProperty(languagePropName, aClass);
+            if (returnObj != null)
+                return returnObj;
+            //If neither of those returns any real value, just get the base property name
+            return product.getProperty(propName, aClass);
+        }
     }
 }
