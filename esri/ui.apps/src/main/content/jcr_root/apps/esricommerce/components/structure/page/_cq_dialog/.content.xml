@@ -45,7 +45,13 @@
 				                        jcr:primaryType="nt:unstructured"
 							    		sling:resourceType="commerce/gui/components/common/productpicker"
 				                        fieldLabel="Featured Product 3"
-				                        name="./featured3"/>					                        				                        				                        					                        				                        		                							                        			                        				                        				                        							        								       
+				                        name="./featured3"/>
+		                			<storefrontPath
+				                        jcr:primaryType="nt:unstructured"
+							    		sling:resourceType="granite/ui/components/foundation/form/pathbrowser"
+							    		rootPath="/content/esri/"
+				                        fieldLabel="Storefront Path"
+				                        name="./storefrontPath"/>				                        					                        				                        				                        					                        				                        		                							                        			                        				                        				                        							        								       
 				                 </items>
 			                </column>
 			            </items>

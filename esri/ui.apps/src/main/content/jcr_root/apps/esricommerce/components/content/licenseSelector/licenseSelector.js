@@ -122,9 +122,9 @@ use(["commerce_init.js"], function (commerceInit) {
     	nextChild = childrenIterator.next();
     	if(nextChild.getResourceType() == 'commerce/components/product') {
     		var childProduct = commerceService.getProduct(nextChild.getPath());
-    		var tags = childProduct.getProperty("cq:tagsVariants", java.lang.String)
-    		skus.push(childProduct.getProperty("sku", java.lang.String))
-    		gcids.push(childProduct.getProperty("gcid", java.lang.String))
+    		var tags = childProduct.getProperty("cq:tagsVariants", java.lang.String);
+    		skus.push(childProduct.getProperty("sku", java.lang.String));
+    		gcids.push(childProduct.getProperty("gcid", java.lang.String));
     		children.push({
     			title: childProduct.getProperty("jcr:title", java.lang.String),
     			productPath: childProduct.getPath(),

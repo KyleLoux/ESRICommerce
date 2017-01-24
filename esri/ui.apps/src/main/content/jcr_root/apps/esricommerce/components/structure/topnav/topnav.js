@@ -16,11 +16,18 @@
 
 // Server-side JavaScript for the topnav logic
 use(function () {
+    var resolver = resource.getResourceResolver();
+    var commerceService = resource.adaptTo(com.adobe.cq.commerce.api.CommerceService);
+    var commerceSession = commerceService.login(request, response);
     var items = [];
     var root = currentPage.getAbsoluteParent(2);
     var currentNavPath = currentPage.getAbsoluteParent(2).getPath();
     var it = root.listChildren(new Packages.com.day.cq.wcm.api.PageFilter());
     var cartPath = "/content/esri/en/cart";
+    var itemsInCart = commerceSession.getCartEntryCount();
+    var rootProperties = currentPage.getAbsoluteParent(2).getProperties();
+    var storefrontPath = rootProperties.get("storefrontPath", java.lang.String);    
+    
     
     while (it.hasNext()) {
         var page = it.next();
@@ -45,6 +52,8 @@ use(function () {
     return {
         items: items,
         currentNavPath: currentNavPath,
-        cartPath: cartPath
+        cartPath: cartPath,
+        itemsInCart : itemsInCart,
+        storefrontPath: storefrontPath? storefrontPath: "/content/esri/en"
     };
 });

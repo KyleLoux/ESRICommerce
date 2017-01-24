@@ -10,8 +10,8 @@
 	
 	<input type="hidden" name="redirect" value="${data.product.redirect}.html"/>
 	<!-- <p class="font-size--1" style="margin-top: 25px;">License Type &nbsp;&nbsp;<a class="js-modal-toggle font-size--2 link-blue" href="#" data-modal="foo">Help me choose</a></p> -->
-	<p data-sly-test="${data.product.children.length >= 1}" class="font-size--1" style="margin-top: 25px;">${data.licenseText @ context='html'} &nbsp;&nbsp;<a class="js-modal-toggle font-size--2 link-blue" href="#" data-modal="chooseLicense">Help me choose</a></p>
-	<div data-sly-test="${data.product.children.length >= 1}" data-sly-list="${data.product.children}">
+	<p data-sly-test="${data.product.children.length == 1 || data.product.children.length == 2}" class="font-size--1" style="margin-top: 25px;">${data.licenseText @ context='html'} &nbsp;&nbsp;<a class="js-modal-toggle font-size--2 link-blue" href="#" data-modal="chooseLicense">Help me choose</a></p>
+	<div data-sly-test="${data.product.children.length == 1 || data.product.children.length == 2}" data-sly-list="${data.product.children}">
 		<p class="font-size-1 licenseTypes">
 	        <div data-sly-use.getPrice="${'esri.commerce.esri.core.services.GetPrice' @ locale=data.locale, token=access.token, secret=access.secret, gcid=item.gcid}"></div>
 	        <input id="license${itemList.index}" type="radio" name="product-path" value="${item.productPath}">
@@ -33,6 +33,13 @@
 		</p>
 		<input type="hidden" name="product-path" value="${data.product.base.productPath}"/>
 	</div>	
+	<div data-sly-test="${data.product.children.length > 2}" data-sly-list="${data.product.children}">
+		<p class="font-size-1 licenseTypes">
+	        <div data-sly-use.getPrice="${'esri.commerce.esri.core.services.GetPrice' @ locale=data.locale, token=access.token, secret=access.secret, gcid=item.gcid}"></div>
+	        <input id="license${item.tag}" type="radio" name="product-path" value="${item.productPath}">
+	        <label for="license${item.tag}" class="license${item.tag} label${itemList.count} font-size--1 ">${item.tag} <br /><br />$${getPrice.product.esriListUnitPrice}</label>
+	    </p>	    
+    </div>		
 	<div class="column-12 productContent">
         <hr>
         <p class="font-size-1">Quantity
@@ -125,6 +132,15 @@
             $("#extButton").attr("disabled", "disabled");
     });
 </script>
+<!-- FUNCTION TO ENABLE ADD TO CART BUTTON WHEN QUANTITY IS GREATER THAN OR EQUAL TO ONE BASED ON OS SELECTION (ARCPAD)-->
+<script>
+    $('#quantity').change(function() {
+        if ($('#quantity').val() == 1 && ($('#licenseWindows').is(':checked')) || ($('#quantity').val() == 1 && ($('#licenseMac').is(':checked')) || ($('#quantity').val() == 1 && ($('#licenseLinux').is(':checked')))))
+            $("#myButton").removeAttr("disabled");
+        else
+            $("#myButton").attr("disabled", "disabled");
+    });
+</script>
 <script>
     $("label.extlicense1").on("click", function() {
         $("label.extlicense1")
@@ -145,6 +161,45 @@
             $("#extButton").removeAttr("disabled");
         else
             $("#extButton").attr("disabled", "disabled");
+    });
+</script>
+<!-- SCRIPT FOR FUNCTION TO ADD/REMOVE A SELECTED CLASS AND CSS FOR THE OS SELECTION BOXES-->
+<script>
+    $("label.licenseWindows").on("click", function() {
+        $("label.licenseWindows")
+                .addClass("selected");
+        $("label.licenseMac")
+                .removeClass("selected");
+        $("label.licenseLinux")
+                .removeClass("selected");
+        if ($('#quantity').val() == 1)
+            $("#myButton").removeAttr("disabled");
+        else
+            $("#myButton").attr("disabled", "disabled");
+    });
+    $("label.licenseMac").on("click", function() {
+        $("label.licenseMac")
+                .addClass("selected");
+        $("label.licenseWindows")
+                .removeClass("selected");
+        $("label.licenseLinux")
+                .removeClass("selected");
+        if ($('#quantity').val() == 1)
+            $("#myButton").removeAttr("disabled");
+        else
+            $("#myButton").attr("disabled", "disabled");
+    });
+    $("label.licenseLinux").on("click", function() {
+        $("label.licenseLinux")
+                .addClass("selected");
+        $("label.licenseWindows")
+                .removeClass("selected");
+        $("label.licenseMac")
+                .removeClass("selected");
+        if ($('#quantity').val() == 1)
+            $("#myButton").removeAttr("disabled");
+        else
+            $("#myButton").attr("disabled", "disabled");
     });
 </script>
 <!-- SCRIPT FOR REMOVING CART BUTTON AND ADDING QUANTITY DISCOUNT MESSAGING -->
@@ -202,3 +257,24 @@
             $('.subtotal').slideDown(500).delay(10000).slideUp(500);                        
     });
 </script>
+<!-- SCRIPT FOR REMOVING CART BUTTON AND ADDING QUANTITY DISCOUNT MESSAGING FOR OS SELECTOR (ARCPAD)-->
+<script>
+    $('#quantity').change(function () {
+        if ($('#quantity').val() >= 2 && ($('#licenseWindows').is(':checked')) || ($('#quantity').val() >= 2 && ($('#licenseMac').is(':checked')) || ($('#quantity').val() >= 2 && ($('#licenseLinux').is(':checked'))))) {
+            $('#myButton').hide();
+            $('span.alert').show();
+        }
+        else if
+            ($('#quantity').val() == 1 && ($('#licenseWindows').is(':checked')) || ($('#quantity').val() == 1 && ($('#licenseMac').is(':checked')) || ($('#quantity').val() == 1 && ($('#licenseLinux').is(':checked'))))) {
+            $('#myButton').show();
+            $('span.alert').hide();
+        }
+    });
+    $(document).ready(function () {
+        if ($('#licenseWindows').is(':checked') && ($('#quantity').val() == 0) || ($('#licenseMac').is(':checked') && ($('#quantity').val() == 0) || ($('#licenseLinux').is(':checked') && ($('#quantity').val() == 0)))) {
+            $('#myButton').show();
+            $('span.alert').hide();
+        }
+    });
+</script>
+

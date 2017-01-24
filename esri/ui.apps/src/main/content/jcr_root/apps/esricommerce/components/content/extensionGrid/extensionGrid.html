@@ -5,7 +5,7 @@
 <div data-sly-use.access="${'esri.commerce.esri.core.services.AccessToken'}"></div>
 <!-- BEGIN RECOMMENDED EXTENSIONS SECTION (IF APPLICABLE) -->
 <div class="grid-container recommendExt" data-sly-test="${data.extensions.length > 0}">
-    <h2 class="font-size-5 leader-1 trailer-2" style="text-align: center;">Recommended Extensions</h2>
+    <h2 class="font-size-5 leader-1 trailer-2" style="text-align: center;">Associated Extensions</h2>
 
     <!-- CODE FOR THREE CARDS ACROSS - REPEAT AS NECESSARY BASED ON NUMBER OF EXTENSIONS AVAILABLE-->
     <div class="grid-container block-group block-group-3-up products">
@@ -18,7 +18,7 @@
                         <img class="card-image" src="${item.image}" alt="Insert Image Here">
                     </figure>
                     <div class="card-content">
-                        <h4><a href="#">${item.title}</a></h4>
+                        <h4><a href="${item.path}.html">${item.title}</a></h4>
                         <p class="font-size-1 card-last">${item.summaryDescription @ context='html'}</p>
                         <p style="margin: 0 !important;">
                             <a class="js-modal-toggle btn btn-fill leader-1" data-title="${item.title}" data-gcid="${item.gcid}" data-product="${item.productPath}" data-paths="${item.childPaths}"  href="" data-modal="recommendExtension" data-sly-attribute.data-price1="${getPrice.product.esriListUnitPrice}" data-sly-attribute.data-price2="${getPrice2.product.esriListUnitPrice}">Buy Now</a>
@@ -100,7 +100,9 @@
     });
     
     $("#extButton").on("click", function() {
-        $('.subtotal').slideDown(500).delay(10000).slideUp(500)
+    	var quantity = $('#extQuantity').val();
+        $('.subtotal').slideDown(500).delay(10000).slideUp(500);
+        $('.subtotal-text').text(quantity + " Item(s) Added to Cart");
     });
 </script>
 <script>

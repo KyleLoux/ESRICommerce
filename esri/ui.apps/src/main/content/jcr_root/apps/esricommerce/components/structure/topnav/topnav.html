@@ -23,7 +23,7 @@
 <header id="navigation" class="sub-nav thin-nav" role="navigation">
     <div class="grid-container">
 		<div class="column-4 tablet-column-2 phone-column-3">
-            <a class="sub-nav-title text-lighter-gray" href="http://store.esri.com" rel="home">Welcome to the store</a>
+            <a class="sub-nav-title text-lighter-gray" href="${topnav.storefrontPath}.html" rel="home">Welcome to the store</a>
         </div>
 <!-- SUB NAVIGATION NEEDS TO BE POPULATED BASED ON NUMBER OF MENU ITEMS -->
         <select class="mobile-sub-nav-list mobile-show select-full trailer-half js-select-nav" data-sly-list="${topnav.items}">
@@ -32,7 +32,9 @@
         <div class="column-18 tablet-column-6 phone-column-4">
             <nav class="sub-nav-list mobile-hide" role="navigation" aria-labelledby="subnav" data-sly-list="${topnav.items}">
                 <a data-sly-test="${!item.isCart}" href="${item.page.path}.html" class="sub-nav-link ${item.className}">${item.page.title}</a>
-                <a data-sly-test="${item.isCart}" href="${item.page.path}.html" class="sub-nav-link ${item.className}"><img src="/apps/esricommerce/components/structure/topnav/clientlib/img/shopping-cart-24.png" style="margin-left: 10px; height: 16px; width: 16px;">&nbsp;&nbsp;Cart</a>
+                <a data-sly-test="${item.isCart}" href="${item.page.path}.html" class="sub-nav-link cart ${item.className}"><img src="/apps/esricommerce/components/structure/topnav/clientlib/img/shopping-cart-24.png" style="margin-left: 10px; height: 16px; width: 16px;">&nbsp;&nbsp;Cart</a>
+                <span data-sly-test="${item.isCart}" class="badge pull-right">${topnav.itemsInCart}</span>
+                
             </nav>
         </div>
         <!-- END SUB NAVIGATION -->

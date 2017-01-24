@@ -101,11 +101,13 @@ h4 a:hover {
 .margin-top-xl {
     margin-bottom: 45px;
 }
-.license1.label1, .license2.label2, .extLicense1.label1, .extLicense2.label2 {
+.license1.label1, .license2.label2, .extLicense1.label1, .extLicense2.label2, .licenseWindows.label1, .licenseMac.label1, .licenseLinux.label1,
+.licenseWindows.label2, .licenseMac.label2, .licenseLinux.label2, .licenseWindows.label3, .licenseMac.label3, .licenseLinux.label3 {
     line-height: 62px;
     padding: 10px 10px 0 10px ;
 }
-.license1.label1, .license2.label2, .extLicense1.label1, .extLicense2.label2{
+.license1.label1, .license2.label2, .extLicense1.label1, .extLicense2.label2, .licenseWindows.label1, .licenseMac.label1, .licenseLinux.label1,
+.licenseWindows.label2, .licenseMac.label2, .licenseLinux.label2, .licenseWindows.label3, .licenseMac.label3, .licenseLinux.label3 {
     cursor: pointer;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
@@ -120,20 +122,40 @@ h4 a:hover {
     height: 5.00rem !important;
     line-height: 62px;
 }
-.license1.label1, .license2.label2, .extLicense1.label1, .extLicense2.label2{
+.license1.label1, .license2.label2, .extLicense1.label1, .extLicense2.label2, .licenseWindows.label1, .licenseMac.label1, .licenseLinux.label1,
+.licenseWindows.label2, .licenseMac.label2, .licenseLinux.label2, .licenseWindows.label3, .licenseMac.label3, .licenseLinux.label3  {
     font-style: normal;
     font-weight: 700;
     line-height: 1.3rem;
     margin-right: 25px;
     display: inline-block;
 }
-.license1.selected, .license2.selected, .extLicense1.selected, .extLicense2.selected {
+.license1.selected, .license2.selected, .extLicense1.selected, .extLicense2.selected, .licenseWindows.selected, .licenseMac.selected, .licenseLinux.selected,
+.licenseWindows.selected, .licenseMac.selected, .licenseLinux.selected {
     border: 3px solid #3498db !important;
 }
 .productContent input {
     display: none;
 }
-
+.cart {
+    padding-right: 0 !important;
+}
+.badge {
+    display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #ffffff;
+    line-height: 1;
+    margin-top: 10px;
+    vertical-align: baseline;
+    white-space: nowrap;
+    text-align: center;
+    background-color: #f36f20;
+    border-radius: 10px;
+    text-indent: 0;
+}
 
 .storeSubMenu {
     background: #042A59; /* For browsers that do not support gradients */
