@@ -16,6 +16,7 @@
 
 // Server-side JavaScript for the main.html logic
 use(["commerce_init.js"], function (commerceInit) {
+    var EsriProductClass = Packages.esri.commerce.esri.core.models.EsriProduct;
 	var product = {};
 
     var resolver = resource.getResourceResolver();
@@ -23,6 +24,7 @@ use(["commerce_init.js"], function (commerceInit) {
     var commerceSession = commerceService.login(request, response);
     var productPath = currentPage.getProperties().get("cq:productMaster", java.lang.String);
     var baseProduct = commerceService.getProduct(productPath);
+    var esriProduct = new EsriProductClass(baseProduct, currentPage);
      
     if(baseProduct != null){
 	    var image = baseProduct.getImage();
@@ -33,7 +35,7 @@ use(["commerce_init.js"], function (commerceInit) {
 	    }
 
 	    return {
-	        title: baseProduct.getTitle(),
+	        title: esriProduct.getTitle(),
 	        image: imagePath,
 	        bannerText: properties.get("bannerText", java.lang.String),
 	        bannerCTA: properties.get("bannerCTA", java.lang.String),

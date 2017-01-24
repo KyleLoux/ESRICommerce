@@ -39,7 +39,7 @@
             </form>
         </div>
         <div class="column-9 productContent">
-            <p class="addInfo font-size-2">${item.getProduct.getTitle}</p>
+            <p class="addInfo font-size-2">${data.esriProducts[itemList.index].getTitle}</p>
             <p data-sly-test="${data.products[itemList.index].license}" class="addInfo font-size--1">License Type: ${data.products[itemList.index].license}</p>
             <p data-sly-test="${data.products[itemList.index].license == 'One-Year Subscription'}"class="addInfo font-size--1">Start Date: ${data.products[itemList.index].startDateText}</p>
             <p data-sly-test="${data.products[itemList.index].license == 'One-Year Subscription'}"class="addInfo font-size--1">End Date: ${data.products[itemList.index].endDateText}</p>

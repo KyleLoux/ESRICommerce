@@ -1,6 +1,7 @@
 'use strict';
 var global = this;
 use(["commerce_init.js"], function (commerceInit) {
+    var EsriProductClass = Packages.esri.commerce.esri.core.models.EsriProduct;
     var product = {};
 
     var resolver = resource.getResourceResolver();
@@ -103,22 +104,23 @@ use(["commerce_init.js"], function (commerceInit) {
 //    product.errorRedirect = errorRedirect;
     product.addToCartUrl = addToCartUrl;
     product.resourceType = resource.resourceType;
-    
+
     //Get Child Products
     var childProductResource = resolver.resolve(productPath);
     var childrenIterator = childProductResource.getResourceResolver().listChildren(childProductResource);
     var kyle = "test"
     var children = [];
     var i = 0;
-    
-    
-    
-    
+
+
+
+
     while(childrenIterator.hasNext()){
     	var childPages = currentPage.listChildren();
     	nextChild = childrenIterator.next();
     	if(nextChild.getResourceType() == 'commerce/components/product') {
     		var childProduct = commerceService.getProduct(nextChild.getPath());
+    		var childEsriProduct = new EsriProductClass(childProduct, currentPage);
     		var mainLabel = childProduct.getProperty("mainLabel", java.lang.String);
     		var kyle = 0;
     		while(childPages.hasNext()){
@@ -130,9 +132,9 @@ use(["commerce_init.js"], function (commerceInit) {
 				}
     		}
     		children.push({
-    			mainLabel: childProduct.getProperty("mainLabel", java.lang.String),
-    			title: childProduct.getProperty("jcr:title", java.lang.String),
-    			summary: childProduct.getProperty("detailedDescription", java.lang.String),
+    			mainLabel: childEsriProduct.getProperty("mainLabel", java.lang.String),
+    			title: childEsriProduct.getProperty("jcr:title", java.lang.String),
+    			summary: childEsriProduct.getProperty("detailedDescription", java.lang.String),
     			path: childPath
     		});
     	}
@@ -157,17 +159,18 @@ use(["commerce_init.js"], function (commerceInit) {
             return null;
         }
         var productImage;
+        var localEsriProduct = new EsriProductClass(product, currentPage);
         var image = product.getImage();
         if (image) {
             productImage = resolver.getResource(image.getPath());
         }
-        
+
         var vm = product.adaptTo(org.apache.sling.api.resource.ValueMap);
 
 
         return {
-            title: product.getTitle(),
-            detailedDescription: product.getProperty('detailedDescription', java.lang.String),           
+            title: localEsriProduct.getTitle(),
+            detailedDescription: localEsriProduct.getProperty('detailedDescription', java.lang.String),
         };
     }
 });

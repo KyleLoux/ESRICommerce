@@ -1,6 +1,7 @@
 'use strict';
 var global = this;
 use(["commerce_init.js"], function (commerceInit) {
+    var EsriProductClass = Packages.esri.commerce.esri.core.models.EsriProduct;
     var product = {};
 
     var resolver = resource.getResourceResolver();
@@ -8,6 +9,7 @@ use(["commerce_init.js"], function (commerceInit) {
     var commerceSession = commerceService.login(request, response);
     var productPath = currentPage.getProperties().get("cq:productMaster", java.lang.String);
     var baseProduct = commerceService.getProduct(productPath);
+    var esriProduct = new EsriProductClass(baseProduct, currentPage);
     var redirect, errorRedirect, addToCartUrl;
     var variants = [];
     var baseProductImagePath;
@@ -20,6 +22,7 @@ use(["commerce_init.js"], function (commerceInit) {
     var skuFlag = false;
     var kyle = "test";
     var products = [];
+    var esriProducts = [];
     var license = "";  
     // Cart details for testing
     var count = commerceSession.getCartEntryCount();
@@ -28,6 +31,7 @@ use(["commerce_init.js"], function (commerceInit) {
     
     for(var i = 0; i < commerceSession.getCartEntryCount(); i++){
     	var currentProduct = productsInCart.get(i).getProduct();
+    	var currentEsriProduct = new EsriProductClass(currentProduct, currentPage);
     	var quantity = productsInCart.get(i).getQuantity();
     	var sku = currentProduct.getProperty("sku", java.lang.String);
     	var gcid = currentProduct.getProperty("gcid", java.lang.String);
@@ -35,9 +39,11 @@ use(["commerce_init.js"], function (commerceInit) {
     	var startDate = currentProduct.getProperty("effectiveDate", java.lang.String);
     	var endDate = currentProduct.getProperty("endDate", java.lang.String);
     	if(currentProduct.getImage()){
+    	//Swap this for EsriProduct
     		var image = resolver.getResource(currentProduct.getImage().getPath());
     	}
-    	
+    	esriProducts[i] = currentEsriProduct;
+
     	if(tags != null && tags.contains("perpetual")){
     		license = "Perpetual"
     	} else if (tags != null && tags.contains("term")){
@@ -87,7 +93,8 @@ use(["commerce_init.js"], function (commerceInit) {
     
     var cart = {
     		count: count,
-    		products: productsInCart
+    		products: productsInCart,
+    		esriProducts: esriProducts
     }
 
     return {

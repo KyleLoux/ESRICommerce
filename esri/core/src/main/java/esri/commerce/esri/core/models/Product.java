@@ -114,5 +114,4 @@ public class Product {
 	public void setEsriListUnitPrice(String esriListUnitPrice) {
 		this.esriListUnitPrice = esriListUnitPrice;
 	}
-
 }

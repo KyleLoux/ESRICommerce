@@ -19,14 +19,17 @@ use(function () {
     var CONST = {
         	FEATUREDPRODUCT_PROP: "featuredProduct"
         };
-       
+
+        var EsriProductClass = Packages.esri.commerce.esri.core.models.EsriProduct;
         var featuredProductPath = properties.get(CONST.FEATUREDPRODUCT_PROP);
             
         var resolver = resource.getResourceResolver();
         var commerceService = resource.adaptTo(com.adobe.cq.commerce.api.CommerceService);
         var commerceSession = commerceService.login(request, response);
         var baseProduct = commerceService.getProduct(featuredProduct);
+        var esriProduct = new EsriProductClass(baseProduct, currentPage);
         var featuredProduct = commerceService.getProduct(featuredProductPath);
+        var featuredEsriProduct = new EsriProductClass(featuredProduct, currentPage);
         
         if(featuredProduct != null){
 	        var image = featuredProduct.getImage();
@@ -42,10 +45,10 @@ use(function () {
 	    	}
 	        
 	        return {
-	        	title: featuredProduct.getTitle(),
-	        	description: featuredProduct.getProperty('summaryDescription', java.lang.String),
-	        	caption: featuredProduct.getProperty('labelCaption', java.lang.String),
-	        	image: featuredProduct.getProperty('largeImage', java.lang.String),
+	        	title: featuredEsriProduct.getTitle(),
+	        	description: featuredEsriProduct.getProperty('summaryDescription', java.lang.String),
+	        	caption: featuredEsriProduct.getProperty('labelCaption', java.lang.String),
+	        	image: featuredEsriProduct.getProperty('largeImage', java.lang.String),
 	        	pagePath: result.getParent().getPath()
 	        };
         }
